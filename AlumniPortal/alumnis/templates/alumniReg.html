@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <style>
+            form {
+  border: 3px solid #f1f1f1;
+}
+
+/* Full-width inputs */
+input[type=email], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+input[type=submit] {
+    width: 10%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    background-color: red;
+    color:white;
+    border:none;
+}
+        </style>
+    </head>
+</html>
+    <body>
+        <h1>Add Alumni</h1>
+        <form action="addUser/" method="POST">
+        {% csrf_token %}
+        Email Id:<br>
+        <input type="email" name="mail" placeholder="Enter Email Id" required>
+        <br><br>
+        Password:<br>
+        <input name="psw" placeholder="Enter Password"  type="password" required>
+        <br><br>
+        <input type="submit" value="SUBMIT">
+        </form>
+    </body>
+</html>

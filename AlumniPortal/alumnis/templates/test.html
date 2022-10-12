@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Alumnis</h1>
+
+    <table border="1">
+    {% for i in ouralumnis %}
+    <tr>
+    <td><a href="update/{{ i.id }}">{{ i.id }}</a></td>
+    <td>{{ i.email }}</td>
+    <td>{{ i.password }}</td>
+    <td><a href="delete/{{ i.id }}">delete</a></td>
+    </tr>
+    {% endfor %}
+    </table>
+    <a href="alumniReg/">Sign Up</a>
+    <a href="alumniSignIn">Sign In</a>
+</body>
+</html>
