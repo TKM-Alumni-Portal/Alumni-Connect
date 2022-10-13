@@ -9,12 +9,20 @@ from django.core.mail import send_mail
 
 def index(request):
   ouralumnis = Alumnis.objects.all().values()
-  template = loader.get_template('test.html')
+  template = loader.get_template('index.html')
   context = {
     'ouralumnis': ouralumnis,
   }
   return HttpResponse(template.render(context, request))
-  
+
+def test(request):
+  ouralumnis = Alumnis.objects.all().values()
+  context = {
+    'ouralumnis': ouralumnis,
+  }
+  template = loader.get_template('test.html')
+  return HttpResponse(template.render(context, request))
+
 def alumniReg(request):
   template = loader.get_template('alumniReg.html')
   return HttpResponse(template.render({}, request))
@@ -40,7 +48,7 @@ def addUser(request):
       email_from = settings.EMAIL_HOST_USER
       recipient_list = [x, ]
       send_mail( subject, message, email_from, recipient_list )
-      return HttpResponseRedirect(reverse('index'))
+      return HttpResponseRedirect(reverse('alumniSignIn'))
 
 def delete(request, id):
   a = Alumnis.objects.get(id=id)
