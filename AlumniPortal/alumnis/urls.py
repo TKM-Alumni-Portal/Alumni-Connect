@@ -10,4 +10,5 @@ urlpatterns = [
     path('update/updaterecord/<int:id>', views.updaterecord, name='updaterecord'),
     path('alumniSignIn', views.alumniSignIn, name='alumniSignIn'),
     path('alumniSignIn/authAlumni', views.authAlumni, name='authAlumni'),
+    path('alumniSignOut', views.alumniSignOut, name='alumniSignOut'),
 ]
