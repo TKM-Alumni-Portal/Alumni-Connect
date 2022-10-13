@@ -7,8 +7,13 @@
     {% for i in ouralumnis %}
     <tr>
     <td><a href="update/{{ i.id }}">{{ i.id }}</a></td>
+    <td>{{ i.fname }}</td>
+    <td>{{ i.lname }}</td>
     <td>{{ i.email }}</td>
+    <td>{{ i.mobile }}</td>
     <td>{{ i.password }}</td>
+    <td>{{ i.otp }}</td>
+    <td>{{ i.verified }}</td>
     <td><a href="delete/{{ i.id }}">delete</a></td>
     </tr>
     {% endfor %}

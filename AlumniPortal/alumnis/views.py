@@ -28,27 +28,42 @@ def alumniReg(request):
   return HttpResponse(template.render({}, request))
 
 def addUser(request):
+  u = request.POST['fname']
+  v = request.POST['lname']
+  w = request.POST['mobile']
   x = request.POST['mail']
   y = request.POST['psw']
+  y1 = request.POST['cpsw']
+  z = random.randint(100000,999999)
   mydata = Alumnis.objects.all()
+  flag=0
   for i in mydata:
     if i.email==x:
-      return HttpResponse("Email Id Already Exist!")
-    else:
-      a = Alumnis(email=x, password=y)
+      flag=1
+      break
+  if flag==1:
+    return HttpResponse("<script>alert('Email Id Already Exist!');window.history.back();</script>")
+  else:
+    if y1!=y:
+      return HttpResponse("<script>alert('Password Does not Match!');window.history.back();</script>")
+    else:  
+      a = Alumnis(fname=u,lname=v, email=x, mobile=w, password=y, otp=z)
       a.save()
-      num = random.randint(100000,999999)
-      subject = 'Welcome to Alumni-Connect'
-      message = f'Hi AJIL, Thank you for Joining in Alumni-Connect.'
+      subject = 'Welcome to the Alumni-Connect'
+      message = f'Hi '+u+' '+v+', Thank you for Joining in Alumni-Connect.'
       email_from = settings.EMAIL_HOST_USER
       recipient_list = [x, ]
       send_mail( subject, message, email_from, recipient_list )
       subject = 'Verify Your Account'
-      message = f'Hi AJIL, '+str(num)+f' is Your One Time Password for account verification.'
+      message = f'Hi '+u+' '+v+', '+str(z)+f' is Your One Time Password for account verification.'
       email_from = settings.EMAIL_HOST_USER
       recipient_list = [x, ]
       send_mail( subject, message, email_from, recipient_list )
-      return HttpResponseRedirect(reverse('alumniSignIn'))
+      template = loader.get_template('verifyAlumni.html')
+      context = {
+        'al':a
+      }
+      return HttpResponse(template.render(context, request))
 
 def delete(request, id):
   a = Alumnis.objects.get(id=id)
@@ -64,11 +79,19 @@ def update(request, id):
   return HttpResponse(template.render(context, request))
 
 def updaterecord(request, id):
+  fname = request.POST['fname']
+  lname = request.POST['lname']
+  mobile = request.POST['mobile']
   mail = request.POST['mail']
   psw = request.POST['psw']
+  verified = request.POST['verified']
   al = Alumnis.objects.get(id=id)
+  al.fname = fname
+  al.lname = lname
   al.email = mail
+  al.mobile = mobile
   al.password = psw
+  al.verified = verified
   al.save()
   return HttpResponseRedirect(reverse('index'))
 
@@ -85,11 +108,50 @@ def authAlumni(request):
   x = request.POST['mail']
   y = request.POST['psw']
   mydata = Alumnis.objects.all()
+  flag=0
   for i in mydata:
-    if i.email==x and i.password==y:
-      request.session['m'] = x
-      template = loader.get_template('alumniView.html')
-      return HttpResponse(template.render({}, request))
-    else:
-      return HttpResponse("<script>alert('Invalid Credentials');window.history.back();</script>")
-  
+    if i.email==x and i.password==y and i.verified==1:
+      flag=1
+      break
+    elif i.email==x and i.verified==1 or i.password==y and i.verified==1:
+      flag=2
+    elif i.email==x and i.password==y and i.verified==0:
+      flag=3
+  if flag==1:
+    template = loader.get_template('alumniView.html')
+    return HttpResponse(template.render({}, request))
+  elif flag==2:
+    return HttpResponse("<script>alert('Invalid Credentials!');window.history.back();</script>")
+  elif flag==3:
+    mydata = Alumnis.objects.all()
+    for i in mydata:
+      if i.email==x:
+        template = loader.get_template('verifyAlumni2.html')
+        context = {
+          'al': i
+        }
+        return HttpResponse(template.render(context, request))
+
+  else:
+    return HttpResponse("<script>alert('No account belongs to the details entered!');window.history.back();</script>")
+
+
+def verifyAlumni(request,id):
+  o = request.POST['otp']
+  al = Alumnis.objects.get(id=id)
+  if str(al.otp)==o:
+    al.verified=1
+    al.save()
+    return HttpResponseRedirect('../../../alumniSignIn')
+  else:
+    return HttpResponse("<script>alert('Enter Valid OTP');window.history.back();</script>")
+
+def verifyAlumni2(request,id):
+  o = request.POST['otp']
+  al = Alumnis.objects.get(id=id)
+  if str(al.otp)==o:
+    al.verified=1
+    al.save()
+    return HttpResponseRedirect('../../alumniSignIn')
+  else:
+    return HttpResponse("<script>alert('Enter Valid OTP');window.history.back();</script>")

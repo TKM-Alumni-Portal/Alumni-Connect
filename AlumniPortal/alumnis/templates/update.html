@@ -11,11 +11,23 @@
 
 <form action="updaterecord/{{ myalumnis.id }}" method="post">
 {% csrf_token %}
+First Name:<br>
+<input name="fname" type="text" value="{{ myalumnis.fname }}" required>
+<br><br>
+Last Name:<br>
+<input name="lname"  type="text" value="{{ myalumnis.lname }}" required>
+<br><br>
 Email Id:<br>
-<input name="mail" value="{{ myalumnis.email }}">
+<input name="mail" type="email" value="{{ myalumnis.email }}" required>
+<br><br>
+Mobile:<br>
+<input name="mobile" type="number" value="{{ myalumnis.mobile }}" required>
 <br><br>
 Password:<br>
-<input name="psw" value="{{ myalumnis.password }}">
+<input name="psw" type="text" value="{{ myalumnis.password }}" required>
+<br><br>
+Verified:<br>
+<input name="verified" type="text" value="{{ myalumnis.verified }}" required>
 <br><br>
 <input type="submit" value="Submit">
 </form>
