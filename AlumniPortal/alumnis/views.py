@@ -1,6 +1,8 @@
 from django.http import HttpResponse,HttpResponseRedirect
+from django.shortcuts import redirect
 from django.template import loader
 from django.urls import reverse
+from requests import session
 from .models import Alumnis
 import random
 
@@ -95,14 +97,30 @@ def updaterecord(request, id):
   al.save()
   return HttpResponseRedirect(reverse('index'))
 
+def superAdmin(request):
+  template = loader.get_template('superAdminView.html')
+  return HttpResponse(template.render({}, request))
+
 def alumniSignIn(request):
   template = loader.get_template('alumniSignIn.html')
   return HttpResponse(template.render({}, request))
 
 def alumniSignOut(request):
-  template = loader.get_template('alumniSignIn.html')
-  return HttpResponse(template.render({}, request))
-  
+  if 'email' in request.session:
+    request.session.flush()
+  return redirect(alumniSignIn)
+
+def alumniView(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Alumnis.objects.filter(email=a).values()
+    template = loader.get_template('alumniView.html')
+    context = {
+    'myalumnis': user,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('alumniSignIn')
 
 def authAlumni(request):
   x = request.POST['mail']
@@ -118,8 +136,8 @@ def authAlumni(request):
     elif i.email==x and i.password==y and i.verified==0:
       flag=3
   if flag==1:
-    template = loader.get_template('alumniView.html')
-    return HttpResponse(template.render({}, request))
+    request.session['email'] = x
+    return redirect('alumniView')
   elif flag==2:
     return HttpResponse("<script>alert('Invalid Credentials!');window.history.back();</script>")
   elif flag==3:
@@ -130,6 +148,7 @@ def authAlumni(request):
         context = {
           'al': i
         }
+        request.session['email'] = x
         return HttpResponse(template.render(context, request))
 
   else:
@@ -155,3 +174,14 @@ def verifyAlumni2(request,id):
     return HttpResponseRedirect('../../alumniSignIn')
   else:
     return HttpResponse("<script>alert('Enter Valid OTP');window.history.back();</script>")
+def alumniProfile(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Alumnis.objects.filter(email=a).values()
+    template = loader.get_template('alumniProfile.html')
+    context = {
+    'myalumnis': user,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('alumniSignIn')
