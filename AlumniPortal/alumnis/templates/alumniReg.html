@@ -6,11 +6,9 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>Alumni SignUp</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
   <style>
 /* Full-width inputs */
-input[type=email], input[type=password],input[type=text],input[type=number] {
+input[type=email], input[type=password],input[type=text],input[type=number],select {
 width: 100%;
 padding: 12px 20px;
 margin: 8px 0;
@@ -43,11 +41,6 @@ label{
   <!-- Vendor CSS Files -->
   <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
   <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
 
   <!-- Template Main CSS File -->
   <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
@@ -61,113 +54,53 @@ label{
 </head>
 
 <body>
-
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top d-flex align-items-center">
-    <div class="container d-flex align-items-center justify-content-between">
-
-      <div class="logo">
-        <h1><a href="">ALUMNI-CONNECT</a></h1>
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-      </div>
-
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto" href="../">Home</a></li>
-          <li><a class="nav-link scrollto" href="#about">About</a></li>
-          <li><a class="nav-link scrollto" href="#services">News & Events</a></li>
-          <li><a class="nav-link scrollto " href="#portfolio">Gallery</a></li>
-          <li><a class="nav-link scrollto" href="#team">Alumnis</a></li>
-          <li class="dropdown active"><a href="#"><span>Login</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              <li class="active"><a href="alumniSignIn">Alumni</a></li>
-              <li><a href="#">Faculty</a></li>
-            </ul>
-          </li>
-          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-          <li><a class="getstarted scrollto" href="../alumniSignIn">Login</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
-
-    </div>
-  </header><!-- End Header -->
-
-
-  <main id="main">
-
-    <!-- ======= Breadcrumbs Section ======= -->
-    <section class="breadcrumbs">
-    </section><!-- End Breadcrumbs Section -->
-
-    <section class="inner-page">
         <center>
       <div class="container col-lg-4">
         <h2>Alumni SignUp</h2>
         <form action="addUser/" name="regform" method="POST">
         {% csrf_token %}
-        <label>First Name</label><br>
-        <input type="text" name="fname" placeholder="Enter First Name" required>
-        <br>
-        <label>Last Name</label><br>
-        <input type="text" name="lname" placeholder="Enter Last Name" required>
+        <label>Name</label><br>
+        <input style="width:49.5%;" type="text" name="fname" placeholder="Enter First Name" pattern="[A-Za-z]{3}" required>
+        <input style="width:49.5%;" type="text" name="lname" placeholder="Enter Last Name" pattern="[A-Za-z]{3}" required>
         <br>
         <label>Email Id</label><br>
-        <input type="email" name="mail" placeholder="Enter Email Id" required>
+        <input type="email" name="mail" placeholder="Enter Email Id" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+        <br>
+        <label>Branch</label><br>
+        <select>
+          <option>-----Select Branch-----</option>
+          <option value="MCA">MCA</option>
+        </select>
+        <br>
+        <label>Year Of Admission</label><br>
+        <select id='date-dropdown'>
+        </select>
         <br>
         <label>Mobile</label><br>
         <input type="number" name="mobile" placeholder="Enter Mobile Number" required>
         <br>
         <label>Password</label><br>
-        <input name="psw" placeholder="Enter Password"  type="password" required>
-        <br>
-        <label>Confirm Password</label><br>
-        <input name="cpsw" placeholder="Confirm Password"  type="password" required>
+        <input style="width:49.5%;" name="psw" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" type="password" required>
+        <input style="width:49.5%;" name="cpsw" placeholder="Confirm Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" type="password" required>
         <br>
         <input type="submit" value="SUBMIT">
         </form>
     
       </div>
     </center>
-    </section>
-
-  </main><!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer">
-        <div class="container">
-          <div class="row d-flex align-items-center">
-            <div class="col-lg-6 text-lg-left text-center">
-              <div class="copyright">
-                &copy; Copyright <strong>ALUMNI-CONNECT</strong>.
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <nav class="footer-links text-lg-right text-center pt-2 pt-lg-0">
-                <a href="#intro" class="scrollto">Home</a>
-                <a href="#about" class="scrollto">About</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Use</a>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </footer><!-- End Footer -->
-
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Vendor JS Files -->
-  <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
-  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
-  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
-
-  <!-- Template Main JS File -->
-  <script src="{% static 'assets/js/main.js' %}"></script>
+    <script>
+      let dateDropdown = document.getElementById('date-dropdown'); 
+           
+      let currentYear = new Date().getFullYear();    
+      let earliestYear = 1957;
+      while (currentYear >= earliestYear) {      
+        let dateOption = document.createElement('option');          
+        dateOption.text = currentYear-1;      
+        dateOption.value = currentYear-1;        
+        dateDropdown.add(dateOption);      
+        currentYear -= 1;    
+      }
+    </script>
 
 </body>
 
