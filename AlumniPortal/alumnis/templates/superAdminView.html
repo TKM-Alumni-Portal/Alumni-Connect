@@ -214,9 +214,6 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
@@ -227,11 +224,6 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
             <li>
               <a class="dropdown-item d-flex align-items-center" href="#">
                 <i class="bi bi-box-arrow-right"></i>
@@ -308,36 +300,18 @@
                 </tr>
               </thead>
               <tbody>
+                {% for i in faculty %}
                 <tr>
-                  <th scope="row"><a href="#">#2457</a></th>
+                  <th scope="row"><a href="#">{{ i.id }}</a></th>
                   <td></td>
-                  <td>Brandon Jacob</td>
-                  <td><span class="badge bg-success">Approved</span></td>
+                  <td>{{ i.fname|upper }} {{ i.lname|upper }}</td>
+                  {% if i.access %}
+                    <td><span class="badge bg-primary">Make As ADMIN</span></td>
+                  {% else %}
+                    <td><span class="badge bg-success"> ADMIN </span></td>
+                  {% endif %}
                 </tr>
-                <tr>
-                  <th scope="row"><a href="#">#2147</a></th>
-                  <td></td>
-                  <td>Bridie Kessler</td>
-                  <td><span class="badge bg-warning">Pending</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><a href="#">#2049</a></th>
-                  <td></td>
-                  <td>Ashleigh Langosh</td>
-                  <td><span class="badge bg-success">Approved</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><a href="#">#2644</a></th>
-                  <td></td>
-                  <td>Angus Grady</td>
-                  <td><span class="badge bg-danger">Rejected</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><a href="#">#2644</a></th>
-                  <td></td>
-                  <td>Raheem Lehner</td>
-                  <td><span class="badge bg-success">Approved</span></td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
 
