@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,10 +5,10 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>SuperAdmin</title>
+  <title>Profile - ALUMNI-CONNECT</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-  {% load static %}
+    {% load static %}
   <!-- Favicons -->
   <link href="{% static 'assets2/img/favicon.png' %}" rel="icon">
   <link href="{% static 'assets2/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
@@ -31,7 +30,7 @@
   <link href="{% static 'assets2/css/style.css' %}" rel="stylesheet">
 
   <!-- =======================================================
-  * Template Name: NiceAdmin - v2.4.1
+  * Template Name: ALUMNI-CONNECT - v2.4.1
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
@@ -39,83 +38,15 @@
 </head>
 
 <body>
-
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
-
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="" class="logo d-flex align-items-center">
-        <span class="d-none d-lg-block">ALUMNI-CONNECT</span>
-      </a>
-    </div><!-- End Logo -->
-
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-
-        <li class="nav-item d-block d-lg-none">
-          <a class="nav-link nav-icon search-bar-toggle " href="#">
-            <i class="bi bi-search"></i>
-          </a>
-
-        <li class="nav-item dropdown pe-3">
-
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="{% static 'assets2/img/tkm-logo.png' %}" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block ps-2">SuperAdmin</span>
-          </a><!-- End Profile Iamge Icon -->
-        </li><!-- End Profile Nav -->
-
-      </ul>
-    </nav><!-- End Icons Navigation -->
-
-  </header>
-
+  {% include 'AdminHeader.html' %}
+  {% include 'AdminSidebar.html' %}
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>SuperAdmin Dashboard</h1>
+      <h1>Home</h1>
+      
     </div><!-- End Page Title -->
-
-    <section class="">
-      <div class="row">
-        <div class="col-12">
-          <div class="card-body">
-            <h5 class="card-title">Permissions</h5>
-
-            <table class="table table-borderless datatable">
-              <thead>
-                <tr>
-                  <th scope="col">Faculty Id</th>
-                  <th scope="col">Faculty Image</th>
-                  <th scope="col">Faculty Name</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Permission</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for i in faculty %}
-                <tr>
-                  <th scope="row"><a href="#">{{ i.id }}</a></th>
-                  <td><img height="80" src="{% static 'assets2/img/Faculty/{{ i.fname|lower }}.jpg' %}"></td>
-                  <td>{{ i.fname|upper }} {{ i.lname|upper }}</td>
-                  {% if i.access %}
-                    <td><span class="badge bg-success"><font color="white"> ADMIN</font> </span></td>
-                    <td><span class="badge bg-primary"> <a style="color:white;" href="revokeAccess/{{ i.id }}">REVOKE</a> </span></td>
-                  {% else %}
-                    <td></td>
-                    <td><span class="badge bg-success"> <a style="color:white;" href="grantAccess/{{ i.id }}">GRANT</a> </span></td>
-                  {% endif %}
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main><!-- End #main -->
+</main>
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">

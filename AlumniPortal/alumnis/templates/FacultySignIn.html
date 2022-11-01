@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Verify Account</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  <style>
+/* Full-width inputs */
+input[type=email], input[type=password],input[type=text],input[type=number] {
+width: 100%;
+border-radius:50px;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+box-sizing: border-box;
+}
+input[type=submit] {
+width: 50%;
+border-radius:50px;
+padding: 12px 20px;
+margin: 8px 0;
+background-color: #3498db;
+color:white;
+border:none;
+}
+label{
+    float:left;
+}
+</style>
+    {% load static %}
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Vesperr - v4.9.1
+  * Template URL: https://bootstrapmade.com/vesperr-free-bootstrap-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+
+
+  <main id="main">
+
+
+    <section class="inner-page">
+      
+        <center>
+          <!--<div class="col-lg-6" id="pslocation">
+          </div>-->
+      <div style="margin-top: 7%;" class="container col-lg-3">
+        <h2>Faculty Login</h2>
+        <form action="FacultySignIn/authFaculty" name="signin" method="post">
+            {% csrf_token %}
+            <label>Email Id</label><br>
+            <input name="mail" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Enter a valid Email Id" value="{{ myFaculty.email }}" required>
+            <br>
+            <label>Password</label><br>
+            <!--<input name="psw" type="password" oninput="formValidate()" value="{{ myalumnis.password }}" required>-->
+            <input name="psw" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must contain minimum 8 characters, 1 Uppercase, 1 Lowercase, 1 Special Character." value="{{ myFaculty.password }}" required>
+            <br>
+            <input type="submit" value="Submit">
+            </form>
+    
+      </div>
+    </center>
+    </section>
+
+  </main><!-- End #main -->
+
+   
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  
+  <script>
+    function formValidate()
+    {    
+      var psw=document.signin.psw.value; 
+      let checkpswd=/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,20}$/;
+      if (!checkpswd.test(psw)){  
+        document.getElementById("pslocation").innerHTML=" <div class='alert alert-danger alert-dismissible fade show' role='alert'>Password Must contains:<br>Minimum 8 characters, One lowercase letter, One uppercase letter, One numeric digit,<br> One special character.</div>";
+      }  
+      else{  
+        document.getElementById("pslocation").innerHTML=""; 
+      }  
+    }
+  </script>
+
+</body>
+
+</html>

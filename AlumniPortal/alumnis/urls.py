@@ -17,4 +17,11 @@ urlpatterns = [
     path('alumniSignOut', views.alumniSignOut, name='alumniSignOut'),
     path('alumniSignIn/verifyAlumni2/<int:id>', views.verifyAlumni2, name='verifyAlumni2'),
     path('alumniProfile/', views.alumniProfile, name='alumniProfile'),
+    path('FacultySignIn', views.FacultySignIn, name='FacultySignIn'),
+    path('FacultySignIn/authFaculty', views.authFaculty, name='authFaculty'),  # type: ignore
+    path('FacultySignOut', views.FacultySignOut, name='FacultySignOut'),
+    path('FacultyView/', views.FacultyView, name='FacultyView'),
+    path('AdminView/', views.AdminView, name='AdminView'),
+    path('grantAccess/<int:id>', views.grantAccess, name="grantAccess"),
+    path('revokeAccess/<int:id>', views.revokeAccess, name="revokeAccess"),
 ]

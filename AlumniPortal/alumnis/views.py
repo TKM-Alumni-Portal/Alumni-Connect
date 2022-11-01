@@ -3,9 +3,8 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.urls import reverse
 from requests import session
-from .models import Alumnis
+from .models import Alumnis, Faculty
 import random
-
 from django.conf import settings
 from django.core.mail import send_mail
 
@@ -98,8 +97,12 @@ def updaterecord(request, id):
   return HttpResponseRedirect(reverse('index'))
 
 def superAdmin(request):
+  mydata = Faculty.objects.all()
   template = loader.get_template('superAdminView.html')
-  return HttpResponse(template.render({}, request))
+  context = {
+    'faculty': mydata,
+  }
+  return HttpResponse(template.render(context, request))
 
 def alumniSignIn(request):
   template = loader.get_template('alumniSignIn.html')
@@ -185,3 +188,68 @@ def alumniProfile(request):
     return HttpResponse(template.render(context, request))
   else:
     return redirect('alumniSignIn')
+
+def FacultySignIn(request):
+  template = loader.get_template('FacultySignIn.html')
+  return HttpResponse(template.render({}, request))
+
+def FacultySignOut(request):
+  if 'email' in request.session:
+    request.session.flush()
+  return redirect(FacultySignIn)
+
+def authFaculty(request):
+  x = request.POST['mail']
+  y = request.POST['psw']
+  mydata = Faculty.objects.all()
+  flag=0
+  for i in mydata:
+    if i.email==x and i.password==y and i.access==0:
+      flag=1
+      break
+    elif i.email==x and i.password==y and i.access==1:
+      flag=2
+  if flag==1:
+    request.session['email'] = x
+    return redirect('FacultyView')
+  elif flag==2:
+    request.session['email'] = x
+    return redirect('AdminView')
+  else:
+    return HttpResponse("<script>alert('Invalid Credentials!');window.history.back();</script>")
+
+def FacultyView(request):
+  if 'email' in request.session:
+    f=request.session.get('email')
+    user = Faculty.objects.filter(email=f).values()
+    template = loader.get_template('FacultyView.html')
+    context = {
+    'myFaculty': user,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('FacultySignIn')
+
+def AdminView(request):
+  if 'email' in request.session:
+    f=request.session.get('email')
+    user = Faculty.objects.filter(email=f).values()
+    template = loader.get_template('AdminView.html')
+    context = {
+    'myFaculty': user,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('FacultySignIn')
+
+def grantAccess(request, id):
+  al = Faculty.objects.get(id=id)
+  al.access=1
+  al.save()
+  return HttpResponseRedirect(reverse('superAdmin'))
+
+def revokeAccess(request, id):
+  al = Faculty.objects.get(id=id)
+  al.access=0
+  al.save()
+  return HttpResponseRedirect(reverse('superAdmin'))

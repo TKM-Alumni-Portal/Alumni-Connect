@@ -60,8 +60,8 @@ label{
         <form action="addUser/" name="regform" method="POST">
         {% csrf_token %}
         <label>Name</label><br>
-        <input style="width:49.5%;" type="text" name="fname" placeholder="Enter First Name" pattern="[A-Za-z]{3}" required>
-        <input style="width:49.5%;" type="text" name="lname" placeholder="Enter Last Name" pattern="[A-Za-z]{3}" required>
+        <input style="width:49.5%;" type="text" name="fname" placeholder="Enter First Name" pattern="[A-Za-z]{3,}" required>
+        <input style="width:49.5%;" type="text" name="lname" placeholder="Enter Last Name" pattern="[A-Za-z]{3,}" required>
         <br>
         <label>Email Id</label><br>
         <input type="email" name="mail" placeholder="Enter Email Id" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
@@ -77,7 +77,7 @@ label{
         </select>
         <br>
         <label>Mobile</label><br>
-        <input type="number" name="mobile" placeholder="Enter Mobile Number" required>
+        <input type="number" name="mobile" pattern="[6789][0-9]{9}" placeholder="Enter Mobile Number" required>
         <br>
         <label>Password</label><br>
         <input style="width:49.5%;" name="psw" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" type="password" required>
