@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.urls import reverse
 from requests import session
-from .models import Alumnis, Faculty
+from .models import Alumnis, Faculty, AlumniProfile, AlumniProPic
 import random
 from django.conf import settings
 from django.core.mail import send_mail
@@ -29,6 +29,8 @@ def alumniReg(request):
   return HttpResponse(template.render({}, request))
 
 def addUser(request):
+  b = request.POST['branch']
+  ad = request.POST['yoa']
   u = request.POST['fname']
   v = request.POST['lname']
   w = request.POST['mobile']
@@ -48,7 +50,7 @@ def addUser(request):
     if y1!=y:
       return HttpResponse("<script>alert('Password Does not Match!');window.history.back();</script>")
     else:  
-      a = Alumnis(fname=u,lname=v, email=x, mobile=w, password=y, otp=z)
+      a = Alumnis(fname=u,lname=v, email=x, mobile=w, password=y, otp=z, branch=b, yoa=ad)
       a.save()
       subject = 'Welcome to the Alumni-Connect'
       message = f'Hi '+u+' '+v+', Thank you for Joining in Alumni-Connect.'
@@ -140,6 +142,10 @@ def authAlumni(request):
       flag=3
   if flag==1:
     request.session['email'] = x
+    mydata = Alumnis.objects.all()
+    for i in mydata:
+      if i.email==x:
+        return redirect('completeProfile')
     return redirect('alumniView')
   elif flag==2:
     return HttpResponse("<script>alert('Invalid Credentials!');window.history.back();</script>")
@@ -187,7 +193,7 @@ def alumniProfile(request):
   }
     return HttpResponse(template.render(context, request))
   else:
-    return redirect('alumniSignIn')
+    return redirect('index')
 
 def FacultySignIn(request):
   template = loader.get_template('FacultySignIn.html')
@@ -242,14 +248,46 @@ def AdminView(request):
   else:
     return redirect('FacultySignIn')
 
-def grantAccess(request, id):
+def grantAccess(request,id):
   al = Faculty.objects.get(id=id)
   al.access=1
   al.save()
   return HttpResponseRedirect(reverse('superAdmin'))
 
-def revokeAccess(request, id):
+def revokeAccess(request,id):
   al = Faculty.objects.get(id=id)
   al.access=0
   al.save()
   return HttpResponseRedirect(reverse('superAdmin'))
+
+def completeProfile(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Alumnis.objects.filter(email=a).values()
+    template = loader.get_template('completeProfile.html')
+    context = {'myalumnis': user,}
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+
+def addDetails(request, email):
+  industry = request.POST['industry']
+  position = request.POST['position']
+  location = request.POST['location']
+  specialization = request.POST['specialization']
+  linkedId = request.POST['linkedId']
+  add = AlumniProfile(email=email,industry=industry, position=position, location=location, specialization=specialization, linkedID=linkedId)
+  add.save()
+  return HttpResponseRedirect(reverse('completeProfile'))
+
+def alumniProPic(request):
+  if request.method == "POST":
+    img = request.FILES["image"]
+    doc = AlumniProPic.objects.create(proPic=img)
+    doc.save()
+    return HttpResponse("Your file was uploaded")
+  return redirect(request,"file.html")
+
+def imgfile(request):
+  template = loader.get_template('file.html')
+  return HttpResponse(template.render({}, request))

@@ -1,10 +1,16 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('superAdmin', views.superAdmin, name='superAdmin'),
     path('test', views.test, name='test'),
+    path('imgfile', views.imgfile, name='imgfile'),
+    path('alumniProPic', views.alumniProPic, name='alumniProPic'),
     path('alumniReg/', views.alumniReg, name='alumniReg'),
     path('alumniView/', views.alumniView, name='alumniView'),  # type: ignore
     path('alumniReg/addUser/', views.addUser, name='addUser'),
@@ -24,4 +30,6 @@ urlpatterns = [
     path('AdminView/', views.AdminView, name='AdminView'),
     path('grantAccess/<int:id>', views.grantAccess, name="grantAccess"),
     path('revokeAccess/<int:id>', views.revokeAccess, name="revokeAccess"),
-]
+    path('completeProfile/', views.completeProfile, name='completeProfile'),
+    path('completeProfile/addDetails/<str:email>', views.addDetails, name='addDetails'),
+]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

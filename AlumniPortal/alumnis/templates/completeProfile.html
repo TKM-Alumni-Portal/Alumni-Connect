@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Complete Profile - ALUMNI-CONNECT</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+    {% load static %}
+  <!-- Favicons -->
+  <link href="{% static 'assets2/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets2/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets2/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/quill/quill.snow.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/simple-datatables/style.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets2/css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: ALUMNI-CONNECT - v2.4.1
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+  <!-- ======= Header ======= -->
+{% load static %}
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="../" class="logo d-flex align-items-center">
+        <span class="d-none d-lg-block">ALUMNI-CONNECT</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{% static 'assets2/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ myalumnis.0.fname }} {{ myalumnis.0.lname }}</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{ myalumnis.0.fname }} {{ myalumnis.0.lname }}</h6>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="../alumniSignOut">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="">
+          <i class="bi bi-grid"></i>
+          <span>Home</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="../alumniSignOut">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Sign Out</span>
+        </a>
+      </li>
+    </ul>
+
+  </aside><!-- End Sidebar-->
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Complete Profile</h1>
+      
+    </div>
+    <!-- End Page Title -->
+    <section class="section profile">
+      <div class="row">
+
+        <div class="col-xl-9">
+
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+
+                <li class="nav-item">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-job">Job Details</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Preferences</button>
+                </li>
+
+              </ul>
+              <div class="tab-content pt-2">
+                <py-script>
+                  cp = AlumniProfile.objects.filter(email=myalumnis.0.email).count()
+                  if cp==0:
+                    print(""" 
+                    <div class="tab-pane fade show active profile-edit pt-3" id="profile-job">
+
+                      <form method="POST" action="addDetails/{{ myalumnis.0.email }}">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                          <label for="industry" class="col-md-4 col-lg-3 col-form-label">Industry/Domain</label>
+                          <div class="col-md-8 col-lg-9">
+                            <input name="industry" type="text" class="form-control">
+                          </div>
+                        </div>
+    
+                        <div class="row mb-3">
+                          <label for="position" class="col-md-4 col-lg-3 col-form-label">Current Position</label>
+                          <div class="col-md-8 col-lg-9">
+                            <input name="position" type="text" class="form-control">
+                          </div>
+                        </div>
+    
+                        <div class="row mb-3">
+                          <label for="location" class="col-md-4 col-lg-3 col-form-label">Job Location</label>
+                          <div class="col-md-8 col-lg-9">
+                            <input name="location" type="text" class="form-control">
+                          </div>
+                        </div>
+    
+                        <div class="row mb-3">
+                          <label for="specialization" class="col-md-4 col-lg-3 col-form-label">Other Specialization</label>
+                          <div class="col-md-8 col-lg-9">
+                            <input name="specialization" type="text" class="form-control">
+                          </div>
+                        </div>
+    
+                        <div class="row mb-3">
+                          <label for="linkedId" class="col-md-4 col-lg-3 col-form-label">LinkedIn ID</label>
+                          <div class="col-md-8 col-lg-9">
+                            <input name="linkedId" type="text" class="form-control">
+                          </div>
+                        </div>
+    
+                        <div class="text-center">
+                          <button type="submit" class="btn btn-primary">Save & Next</button>
+                        </div>
+                      <!-- End Profile Edit Form -->
+    
+                    </div>
+                    """)
+                  </py-script>
+                
+                
+                <div class="tab-pane fade pt-3" id="profile-settings">
+
+                  <!-- Settings Form -->
+                  
+
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Area(s) Interested in contributing</label>
+                      <div class="col-md-8 col-lg-9">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="changesMade">
+                          <label class="form-check-label" for="changesMade">
+                          Guest Faculty
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="proOffers">
+                          <label class="form-check-label" for="proOffers">
+                              Case Studies 
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <label class="form-check-label" for="securityNotify">
+                              Faculty Internship
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <label class="form-check-label" for="securityNotify">
+                            Research
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <label class="form-check-label" for="securityNotify">
+                            Faculty Development Programme (FDP)
+                          </label>
+                        </div> 
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <label class="form-check-label" for="securityNotify">
+                            Management Development Programme (MDP)
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <label class="form-check-label" for="securityNotify">
+                            Industry Visits/Webinars
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <label class="form-check-label" for="securityNotify">
+                            Buddy System (Students Mentoring)
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <label class="form-check-label" for="securityNotify">
+                            Consulting
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <label class="form-check-label" for="securityNotify">
+                            Summer Internship Program
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <label class="form-check-label" for="securityNotify">
+                            Placements
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <label class="form-check-label" for="securityNotify">
+                            Incubation Center
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <label class="form-check-label" for="securityNotify">
+                            Live Projects for Students
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <label class="form-check-label" for="securityNotify">
+                            CSR / Social Development Programme
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <label class="form-check-label" for="securityNotify">
+                            Student Scholarships Programme
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <label class="form-check-label" for="securityNotify">
+                            Social Eminence (Social Media Connect)
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                  </form><!-- End settings Form -->
+
+                </div>")</py-script>
+
+                
+
+              </div><!-- End Bordered Tabs -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+</main>
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>ALUMNI-CONNECT</span></strong>. All Rights Reserved
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets2/vendor/apexcharts/apexcharts.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/chart.js/chart.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/echarts/echarts.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/quill/quill.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/simple-datatables/simple-datatables.js' %}"></script>
+  <script src="{% static 'assets2/vendor/tinymce/tinymce.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets2/js/main.js' %}"></script>
+
+</body>
+
+</html>
