@@ -49,5 +49,6 @@ class Faculty(models.Model):
   access = models.IntegerField(default=0)
 
 class AlumniProPic(models.Model):
-  proPic = models.FileField()
+  proPic = models.ImageField(upload_to='alumniProPic/')
+  email = models.CharField(max_length=255, default="")
   

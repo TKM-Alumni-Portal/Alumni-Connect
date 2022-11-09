@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
 
 
 
@@ -9,8 +10,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('superAdmin', views.superAdmin, name='superAdmin'),
     path('test', views.test, name='test'),
-    path('imgfile', views.imgfile, name='imgfile'),
-    path('alumniProPic', views.alumniProPic, name='alumniProPic'),
+    path('alumniProfile/uploadProPic', views.uploadProPic, name = 'uploadProPic'),
     path('alumniReg/', views.alumniReg, name='alumniReg'),
     path('alumniView/', views.alumniView, name='alumniView'),  # type: ignore
     path('alumniReg/addUser/', views.addUser, name='addUser'),
@@ -32,4 +32,7 @@ urlpatterns = [
     path('revokeAccess/<int:id>', views.revokeAccess, name="revokeAccess"),
     path('completeProfile/', views.completeProfile, name='completeProfile'),
     path('completeProfile/addDetails/<str:email>', views.addDetails, name='addDetails'),
-]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+    path('alumniProfile/updateDetails/<str:email>', views.updateDetails, name='updateDetails'),
+]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

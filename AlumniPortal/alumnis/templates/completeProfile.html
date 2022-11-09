@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
+  <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
   <title>Complete Profile - ALUMNI-CONNECT</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
@@ -125,19 +125,11 @@
               <ul class="nav nav-tabs nav-tabs-bordered">
 
                 <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-job">Job Details</button>
-                </li>
-
-                <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Preferences</button>
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-job">Add Details</button>
                 </li>
 
               </ul>
               <div class="tab-content pt-2">
-                <py-script>
-                  cp = AlumniProfile.objects.filter(email=myalumnis.0.email).count()
-                  if cp==0:
-                    print(""" 
                     <div class="tab-pane fade show active profile-edit pt-3" id="profile-job">
 
                       <form method="POST" action="addDetails/{{ myalumnis.0.email }}">
@@ -176,18 +168,6 @@
                             <input name="linkedId" type="text" class="form-control">
                           </div>
                         </div>
-    
-                        <div class="text-center">
-                          <button type="submit" class="btn btn-primary">Save & Next</button>
-                        </div>
-                      <!-- End Profile Edit Form -->
-    
-                    </div>
-                    """)
-                  </py-script>
-                
-                
-                <div class="tab-pane fade pt-3" id="profile-settings">
 
                   <!-- Settings Form -->
                   
@@ -196,97 +176,113 @@
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Area(s) Interested in contributing</label>
                       <div class="col-md-8 col-lg-9">
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="changesMade">
+                          <input type="hidden" name="gf" value=0 />
+                          <input class="form-check-input" type="checkbox" name="gf" value=1>
                           <label class="form-check-label" for="changesMade">
                           Guest Faculty
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="proOffers">
+                          <input type="hidden" name="cs" value=0 />
+                          <input class="form-check-input" type="checkbox" name="cs" value=1>
                           <label class="form-check-label" for="proOffers">
                               Case Studies 
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <input type="hidden" name="fi" value=0 />
+                          <input class="form-check-input" type="checkbox" name="fi" value=1>
                           <label class="form-check-label" for="securityNotify">
                               Faculty Internship
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <input type="hidden" name="r" value=0 />
+                          <input class="form-check-input" type="checkbox" name="r" value=1>
                           <label class="form-check-label" for="securityNotify">
                             Research
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <input type="hidden" name="fdp" value=0 />
+                          <input class="form-check-input" type="checkbox" name="fdp" value=1>
                           <label class="form-check-label" for="securityNotify">
                             Faculty Development Programme (FDP)
                           </label>
                         </div> 
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <input type="hidden" name="mdp" value=0 />
+                          <input class="form-check-input" type="checkbox" name="mdp" value=1>
                           <label class="form-check-label" for="securityNotify">
                             Management Development Programme (MDP)
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <input type="hidden" name="iv" value=0 />
+                          <input class="form-check-input" type="checkbox" name="iv" value=1>
                           <label class="form-check-label" for="securityNotify">
                             Industry Visits/Webinars
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <input type="hidden" name="bs" value=0 />
+                          <input class="form-check-input" type="checkbox" name="bs" value=1>
                           <label class="form-check-label" for="securityNotify">
                             Buddy System (Students Mentoring)
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <input type="hidden" name="c" value=0 />
+                          <input class="form-check-input" type="checkbox" name="c" value=1>
                           <label class="form-check-label" for="securityNotify">
                             Consulting
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <input type="hidden" name="sip" value=0 />
+                          <input class="form-check-input" type="checkbox" name="sip" value=1>
                           <label class="form-check-label" for="securityNotify">
                             Summer Internship Program
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <input type="hidden" name="p" value=0 />
+                          <input class="form-check-input" type="checkbox" name="p" value=1>
                           <label class="form-check-label" for="securityNotify">
                             Placements
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <input type="hidden" name="ic" value=0 />
+                          <input class="form-check-input" type="checkbox" name="ic" value=1>
                           <label class="form-check-label" for="securityNotify">
                             Incubation Center
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <input type="hidden" name="lps" value=0 />
+                          <input class="form-check-input" type="checkbox" name="lps" value=1>
                           <label class="form-check-label" for="securityNotify">
                             Live Projects for Students
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <input type="hidden" name="csr" value=0 />
+                          <input class="form-check-input" type="checkbox" name="csr" value=1>
                           <label class="form-check-label" for="securityNotify">
                             CSR / Social Development Programme
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <input type="hidden" name="ssp" value=0 />
+                          <input class="form-check-input" type="checkbox" name="ssp" value=1>
                           <label class="form-check-label" for="securityNotify">
                             Student Scholarships Programme
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify">
+                          <input type="hidden" name="se" value=0 />
+                          <input class="form-check-input" type="checkbox" name="se" value=1>
                           <label class="form-check-label" for="securityNotify">
                             Social Eminence (Social Media Connect)
                           </label>
@@ -299,7 +295,7 @@
                     </div>
                   </form><!-- End settings Form -->
 
-                </div>")</py-script>
+                </div>
 
                 
 

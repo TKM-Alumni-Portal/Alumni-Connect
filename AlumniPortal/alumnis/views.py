@@ -1,5 +1,5 @@
 from django.http import HttpResponse,HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.template import loader
 from django.urls import reverse
 from requests import session
@@ -7,6 +7,7 @@ from .models import Alumnis, Faculty, AlumniProfile, AlumniProPic
 import random
 from django.conf import settings
 from django.core.mail import send_mail
+from .forms import *
 
 def index(request):
   ouralumnis = Alumnis.objects.all().values()
@@ -119,9 +120,10 @@ def alumniView(request):
   if 'email' in request.session:
     a=request.session.get('email')
     user = Alumnis.objects.filter(email=a).values()
+    alumniDetails = AlumniProfile.objects.filter(email=a).values()
     template = loader.get_template('alumniView.html')
     context = {
-    'myalumnis': user,
+    'myalumnis': user,'details':alumniDetails,
   }
     return HttpResponse(template.render(context, request))
   else:
@@ -145,7 +147,9 @@ def authAlumni(request):
     mydata = Alumnis.objects.all()
     for i in mydata:
       if i.email==x:
-        return redirect('completeProfile')
+        status=Alumnis.objects.filter(email=x).count()
+        if status==0:
+          return redirect('completeProfile')
     return redirect('alumniView')
   elif flag==2:
     return HttpResponse("<script>alert('Invalid Credentials!');window.history.back();</script>")
@@ -186,10 +190,12 @@ def verifyAlumni2(request,id):
 def alumniProfile(request):
   if 'email' in request.session:
     a=request.session.get('email')
+    pic = AlumniProPic.objects.filter(email=a).values()
     user = Alumnis.objects.filter(email=a).values()
+    alumniDetails = AlumniProfile.objects.filter(email=a).values()
     template = loader.get_template('alumniProfile.html')
     context = {
-    'myalumnis': user,
+    'myalumnis': user,'details':alumniDetails,'pic' : pic,
   }
     return HttpResponse(template.render(context, request))
   else:
@@ -276,18 +282,52 @@ def addDetails(request, email):
   location = request.POST['location']
   specialization = request.POST['specialization']
   linkedId = request.POST['linkedId']
-  add = AlumniProfile(email=email,industry=industry, position=position, location=location, specialization=specialization, linkedID=linkedId)
+  gf = request.POST['gf']
+  cs = request.POST['cs']
+  fi = request.POST['fi']
+  r = request.POST['r']
+  fdp = request.POST['fdp']
+  mdp = request.POST['mdp']
+  iv = request.POST['iv']
+  bs = request.POST['bs']
+  c = request.POST['c']
+  sip = request.POST['sip']
+  p = request.POST['p']
+  ic = request.POST['ic']
+  lps = request.POST['lps']
+  csr = request.POST['csr']
+  ssp = request.POST['ssp']
+  se = request.POST['se']
+  add = AlumniProfile(email=email,industry=industry, position=position, location=location, specialization=specialization, linkedID=linkedId, gf=gf, cs=cs, fi=fi, research=r,fdp=fdp, mdp=mdp, iv=iv, buddySys=bs, consulting=c, sip=sip, placements=p, ic=ic, lps=lps, csr=csr, ssp=ssp, se=se)
   add.save()
-  return HttpResponseRedirect(reverse('completeProfile'))
 
-def alumniProPic(request):
-  if request.method == "POST":
-    img = request.FILES["image"]
-    doc = AlumniProPic.objects.create(proPic=img)
-    doc.save()
-    return HttpResponse("Your file was uploaded")
-  return redirect(request,"file.html")
+  return HttpResponseRedirect(reverse('alumniView'))
 
-def imgfile(request):
-  template = loader.get_template('file.html')
-  return HttpResponse(template.render({}, request))
+def updateDetails(request,email):
+  fname = request.POST['fname']
+  lname = request.POST['lname']
+  mobile = request.POST['mobile']
+  industry = request.POST['industry']
+  position = request.POST['position']
+  location = request.POST['location']
+  linkedID = request.POST['linkedID']
+  al = Alumnis.objects.get(email=email)
+  aD = AlumniProfile.objects.get(email=email)
+  al.fname = fname
+  al.lname = lname
+  al.mobile = mobile
+  aD.industry = industry
+  aD.position = position
+  aD.location = location
+  aD.linkedID = linkedID
+  al.save()
+  aD.save()
+  return HttpResponseRedirect(reverse('alumniView'))
+
+def uploadProPic(request):
+    if request.method == 'POST' and request.FILES['proPic']:
+        proPic = request.FILES['proPic']
+        img=AlumniProPic(email=request.session.get('email'),proPic=proPic)
+        img.save()
+        return redirect('alumniProfile')
+    return HttpResponse("Failed to upload")
