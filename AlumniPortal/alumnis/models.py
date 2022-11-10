@@ -50,5 +50,5 @@ class Faculty(models.Model):
 
 class AlumniProPic(models.Model):
   proPic = models.ImageField(upload_to='alumniProPic/')
-  email = models.CharField(max_length=255, default="")
+  email = models.CharField(max_length=255,primary_key=True, default="")
   

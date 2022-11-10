@@ -119,11 +119,12 @@ def alumniSignOut(request):
 def alumniView(request):
   if 'email' in request.session:
     a=request.session.get('email')
+    pic = AlumniProPic.objects.filter(email=a).values()
     user = Alumnis.objects.filter(email=a).values()
     alumniDetails = AlumniProfile.objects.filter(email=a).values()
     template = loader.get_template('alumniView.html')
     context = {
-    'myalumnis': user,'details':alumniDetails,
+    'myalumnis': user,'details':alumniDetails,'pic' : pic,
   }
     return HttpResponse(template.render(context, request))
   else:
@@ -157,7 +158,7 @@ def authAlumni(request):
     mydata = Alumnis.objects.all()
     for i in mydata:
       if i.email==x:
-        template = loader.get_template('verifyAlumni2.html')
+        template = loader.get_template('verifyAlumni.html')
         context = {
           'al': i
         }
@@ -174,19 +175,10 @@ def verifyAlumni(request,id):
   if str(al.otp)==o:
     al.verified=1
     al.save()
-    return HttpResponseRedirect('../../../alumniSignIn')
-  else:
-    return HttpResponse("<script>alert('Enter Valid OTP');window.history.back();</script>")
-
-def verifyAlumni2(request,id):
-  o = request.POST['otp']
-  al = Alumnis.objects.get(id=id)
-  if str(al.otp)==o:
-    al.verified=1
-    al.save()
     return HttpResponseRedirect('../../alumniSignIn')
   else:
     return HttpResponse("<script>alert('Enter Valid OTP');window.history.back();</script>")
+
 def alumniProfile(request):
   if 'email' in request.session:
     a=request.session.get('email')
@@ -300,6 +292,34 @@ def addDetails(request, email):
   se = request.POST['se']
   add = AlumniProfile(email=email,industry=industry, position=position, location=location, specialization=specialization, linkedID=linkedId, gf=gf, cs=cs, fi=fi, research=r,fdp=fdp, mdp=mdp, iv=iv, buddySys=bs, consulting=c, sip=sip, placements=p, ic=ic, lps=lps, csr=csr, ssp=ssp, se=se)
   add.save()
+
+  return HttpResponseRedirect(reverse('alumniView'))
+
+def updatePreference(request, email):
+  industry = request.POST['industry']
+  position = request.POST['position']
+  location = request.POST['location']
+  specialization = request.POST['specialization']
+  linkedId = request.POST['linkedId']
+  gf = request.POST['gf']
+  cs = request.POST['cs']
+  fi = request.POST['fi']
+  r = request.POST['r']
+  fdp = request.POST['fdp']
+  mdp = request.POST['mdp']
+  iv = request.POST['iv']
+  bs = request.POST['bs']
+  c = request.POST['c']
+  sip = request.POST['sip']
+  p = request.POST['p']
+  ic = request.POST['ic']
+  lps = request.POST['lps']
+  csr = request.POST['csr']
+  ssp = request.POST['ssp']
+  se = request.POST['se']
+  prefer = Alumnis.objects.get(email=email)
+  prefer = AlumniProfile(industry=industry, position=position, location=location, specialization=specialization, linkedID=linkedId, gf=gf, cs=cs, fi=fi, research=r,fdp=fdp, mdp=mdp, iv=iv, buddySys=bs, consulting=c, sip=sip, placements=p, ic=ic, lps=lps, csr=csr, ssp=ssp, se=se)
+  prefer.save()
 
   return HttpResponseRedirect(reverse('alumniView'))
 

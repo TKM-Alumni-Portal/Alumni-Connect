@@ -21,7 +21,6 @@ urlpatterns = [
     path('alumniSignIn', views.alumniSignIn, name='alumniSignIn'),
     path('alumniSignIn/authAlumni', views.authAlumni, name='authAlumni'),  # type: ignore
     path('alumniSignOut', views.alumniSignOut, name='alumniSignOut'),
-    path('alumniSignIn/verifyAlumni2/<int:id>', views.verifyAlumni2, name='verifyAlumni2'),
     path('alumniProfile/', views.alumniProfile, name='alumniProfile'),
     path('FacultySignIn', views.FacultySignIn, name='FacultySignIn'),
     path('FacultySignIn/authFaculty', views.authFaculty, name='authFaculty'),  # type: ignore
@@ -33,6 +32,6 @@ urlpatterns = [
     path('completeProfile/', views.completeProfile, name='completeProfile'),
     path('completeProfile/addDetails/<str:email>', views.addDetails, name='addDetails'),
     path('alumniProfile/updateDetails/<str:email>', views.updateDetails, name='updateDetails'),
+    path('alumniProfile/updatePreference/<str:email>', views.updatePreference, name='updatePreference'),
 ]
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -68,7 +68,11 @@
 
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-              <img src="/media/{{ pic.0.proPic }}"  alt="Profile" class="rounded-circle">
+              {% if pic.0.proPic %}
+                <img src="{% static 'media/' %}{{ pic.0.proPic }}"  alt="Profile" class="rounded-circle">
+              {% else %}
+                <img src="{% static 'assets2/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
+              {% endif %}
               <!--<img src="{% static 'assets2/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">-->
               <h2>{{ myalumnis.0.fname }} {{ myalumnis.0.lname }}</h2>
               <h3>{{ details.0.position }}</h3>
@@ -147,10 +151,10 @@
                   <!-- Profile Edit Form -->
                   
                     <div class="row mb-3">
-                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Picture</label>
                       <div class="col-md-8 col-lg-9">
                         {% if pic.0.proPic %}
-                          <img src="../../media/{{ pic.0.proPic }}"  alt="Profile">
+                          <img src="{% static 'media/' %}{{ pic.0.proPic }}"  alt="Profile">
                         {% else %}
                           <img src="{% static 'assets2/img/profile-img.jpg' %}" alt="Profile">
                         {% endif %}
@@ -167,7 +171,7 @@
                                 <form action="uploadProPic" method="POST" enctype="multipart/form-data">
                                 <div class="modal-body">
                                   {% csrf_token %}
-                                  <input type="file" name="proPic" accept=".jpeg, .jpg, .png">
+                                  <input type="file" class="form-control" name="proPic" accept=".jpeg, .jpg, .png">
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -246,13 +250,16 @@
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
-                  <form method="POST" action="updateDetails/{{ myalumnis.0.email }}">
+                  <form method="POST" name="changepass" action="changePassword/{{ myalumnis.0.email }}">
                     {% csrf_token %}
-
+                    <div class="row mb-3">
+                      
+                    </div>
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" id="currentPassword">
+                        <input type="hidden" name="cp" value="{{ myalumnis.0.password }}" />
+                        <input name="currentPassword" type="password" class="form-control" id="currentPassword">
                       </div>
                     </div>
 
@@ -269,7 +276,8 @@
                         <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                       </div>
                     </div>
-
+                    <div class="row mb-3" id="passwarn">
+                    </div>
                     <div class="text-center">
                       <button type="submit" class="btn btn-primary">Change Password</button>
                     </div>
@@ -279,14 +287,14 @@
                 <div class="tab-pane fade pt-3" id="profile-settings">
 
                   <!-- Settings Form -->
-                  <form method="POST" action="updateDetails/{{ myalumnis.0.email }}">
+                  <form method="POST" action="updatePreference/{{ myalumnis.0.email }}">
                     {% csrf_token %}
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Area(s) Interested in contributing</label>
                       <div class="col-md-8 col-lg-9">
                         <div class="form-check">
                           <input type="hidden" name="gf" value=0 />
-                          <input class="form-check-input" type="checkbox" name="gf" value=1>
+                          <input class="form-check-input" type="checkbox" name="gf" value=0 checked>
                           <label class="form-check-label" for="changesMade">
                           Guest Faculty
                           </label>
@@ -438,6 +446,18 @@
 
   <!-- Template Main JS File -->
   <script src="{% static 'assets2/js/main.js' %}"></script>
+  <!--<script>
+    function checkPass(org)
+    {    
+      var psw=document.changepass.currentPassword.value;
+      if (org!=psw){  
+        document.getElementById("passwarn").innerHTML="<div class='alert alert-warning alert-dismissible fade show' role='alert'><i class='bi bi-exclamation-triangle me-1'></i>Current password is not correct!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+      }  
+      else{  
+        document.getElementById("passwarn").innerHTML=""; 
+      }  
+    }
+  </script>-->
 
 </body>
 
