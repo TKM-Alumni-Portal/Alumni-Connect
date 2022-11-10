@@ -1,8 +1,8 @@
-from django import forms
-from .models import *
+# from django import forms
+# from .models import *
   
-class alumniPic(forms.ModelForm):
+# class alumniPic(forms.ModelForm):
   
-    class Meta:
-        model = AlumniProPic
-        fields = ['proPic']
+#     class Meta:
+#         model = AlumniProPic
+#         fields = ['proPic']
