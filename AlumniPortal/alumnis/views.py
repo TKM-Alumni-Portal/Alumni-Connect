@@ -329,5 +329,6 @@ def uploadProPic(request):
         proPic = request.FILES['proPic']
         img=AlumniProPic(email=request.session.get('email'),proPic=proPic)
         img.save()
+        context = {'proPicture': proPic}
         return redirect('alumniProfile')
     return HttpResponse("Failed to upload")
