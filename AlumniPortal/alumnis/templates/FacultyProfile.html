@@ -1,0 +1,458 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <a href="../alumniSignIn">Sign Out</a>
+</body>
+</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Users / Profile - NiceAdmin Bootstrap Template</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+    {% load static %}
+  <!-- Favicons -->
+  <link href="{% static 'assets2/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets2/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets2/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/quill/quill.snow.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/simple-datatables/style.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets2/css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.4.1
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+  
+    {% include 'FacultyHeader.html' %}
+    {% include 'FacultySidebar.html' %}
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Profile</h1>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
+
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+              {% if myFaculty.0.proPic %}
+                <img src="{% static 'media/' %}{{ myFaculty.0.proPic }}"  alt="Profile" class="rounded-circle">
+              {% else %}
+                <img src="{% static 'assets2/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
+              {% endif %}
+              <!--<img src="{% static 'assets2/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">-->
+              <h2>{{ myFaculty.0.fname }} {{ myFaculty.0.lname }}</h2>
+              <h3>Faculty</h3>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xl-8">
+
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+
+                <li class="nav-item">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+                </li>
+
+
+              </ul>
+              <div class="tab-content pt-2">
+
+                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                  
+                  <h5 class="card-title">Profile Details</h5>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                    <div class="col-lg-9 col-md-8">{{ myFaculty.0.fname }} {{ myFaculty.0.lname }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Pen Number</div>
+                    <div class="col-lg-9 col-md-8">{{ myFaculty.0.penNumber }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Job Title</div>
+                    <div class="col-lg-9 col-md-8">Faculty</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Mobile Number</div>
+                    <div class="col-lg-9 col-md-8">{{ myFaculty.0.mobile }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Email</div>
+                    <div class="col-lg-9 col-md-8">{{ myFaculty.0.email }}</div>
+                  </div>
+
+                </div>
+
+                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+
+                  <!-- Profile Edit Form -->
+                  
+                    <div class="row mb-3">
+                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Picture</label>
+                      <div class="col-md-8 col-lg-9">
+                        {% if myFaculty.0.proPic %}
+                          <img src="{% static 'media/' %}{{ myFaculty.0.proPic }}"  alt="Profile">
+                        {% else %}
+                          <img src="{% static 'assets2/img/profile-img.jpg' %}" alt="Profile">
+                        {% endif %}
+                        <div class="pt-2">
+                          
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#verticalycentered" class="btn btn-primary" ><i class="bi bi-upload"></i></button>
+                          <div class="modal fade" id="verticalycentered" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Profile Picture</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="FacultyProPic" method="POST" enctype="multipart/form-data">
+                                <div class="modal-body">
+                                  {% csrf_token %}
+                                  <input type="file" class="form-control" name="proPic" accept=".jpeg, .jpg, .png">
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <button type="submit" class="btn btn-primary">Upload</button>
+                                </div>
+                              </form>
+                              </div>
+                            </div>
+                          </div>
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#verticalycentered1" class="btn btn-danger" ><i class="bi bi-trash"></i></button>
+                          <div class="modal fade" id="verticalycentered1" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Remove Profile Picture</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <center><h4>Are you sure want to delete your profile picture?</h4></center>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-danger"><a style="color:white;" href="deleteFacultyProPic/{{ myFaculty.0.email }}">Confirm</a></button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  <form method="POST" action="updateDetails/{{ myalumnis.0.email }}">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="fname" type="text" class="form-control" id="fullName" value="{{ myFaculty.0.fname }}">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="lname" type="text" class="form-control" id="fullName" value="{{ myFaculty.0.lname }}">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label for="company" class="col-md-4 col-lg-3 col-form-label">Pen Number</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="industry" type="text" class="form-control" id="company" value="{{ myFaculty.0.penNumber }}" disabled>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job title</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="position" type="text" class="form-control" id="Job" value="Faculty">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Mobile</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="mobile" type="text" class="form-control" id="Phone" value="{{ myFaculty.0.mobile }}">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="email" type="email" class="form-control" id="Email" value="{{ myFaculty.0.email }}">
+                      </div>
+                    </div>
+
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                  </form><!-- End Profile Edit Form -->
+
+                </div>
+
+                <div class="tab-pane fade pt-3" id="profile-change-password">
+                  <!-- Change Password Form -->
+                  <form method="POST" name="changepass" action="changePassword/{{ myalumnis.0.email }}">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                      
+                    </div>
+                    <div class="row mb-3">
+                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input type="hidden" name="cp" value="{{ myalumnis.0.password }}" />
+                        <input name="currentPassword" type="password" class="form-control" id="currentPassword">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="newpassword" type="password" class="form-control" id="newPassword">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                      </div>
+                    </div>
+                    <div class="row mb-3" id="passwarn">
+                    </div>
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Change Password</button>
+                    </div>
+                  </form><!-- End Change Password Form -->
+
+                </div>
+                <div class="tab-pane fade pt-3" id="profile-settings">
+
+                  <!-- Settings Form -->
+                  <form method="POST" action="updatePreference/{{ myalumnis.0.email }}">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Area(s) Interested in contributing</label>
+                      <div class="col-md-8 col-lg-9">
+                        <div class="form-check">
+                          <input type="hidden" name="gf" value=0 />
+                          <input class="form-check-input" type="checkbox" name="gf" value=0 checked>
+                          <label class="form-check-label" for="changesMade">
+                          Guest Faculty
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input type="hidden" name="cs" value=0 />
+                          <input class="form-check-input" type="checkbox" name="cs" value=1>
+                          <label class="form-check-label" for="proOffers">
+                              Case Studies 
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input type="hidden" name="fi" value=0 />
+                          <input class="form-check-input" type="checkbox" name="fi" value=1>
+                          <label class="form-check-label" for="securityNotify">
+                              Faculty Internship
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input type="hidden" name="r" value=0 />
+                          <input class="form-check-input" type="checkbox" name="r" value=1>
+                          <label class="form-check-label" for="securityNotify">
+                            Research
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input type="hidden" name="fdp" value=0 />
+                          <input class="form-check-input" type="checkbox" name="fdp" value=1>
+                          <label class="form-check-label" for="securityNotify">
+                            Faculty Development Programme (FDP)
+                          </label>
+                        </div> 
+                        <div class="form-check">
+                          <input type="hidden" name="mdp" value=0 />
+                          <input class="form-check-input" type="checkbox" name="mdp" value=1>
+                          <label class="form-check-label" for="securityNotify">
+                            Management Development Programme (MDP)
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input type="hidden" name="iv" value=0 />
+                          <input class="form-check-input" type="checkbox" name="iv" value=1>
+                          <label class="form-check-label" for="securityNotify">
+                            Industry Visits/Webinars
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input type="hidden" name="bs" value=0 />
+                          <input class="form-check-input" type="checkbox" name="bs" value=1>
+                          <label class="form-check-label" for="securityNotify">
+                            Buddy System (Students Mentoring)
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input type="hidden" name="c" value=0 />
+                          <input class="form-check-input" type="checkbox" name="c" value=1>
+                          <label class="form-check-label" for="securityNotify">
+                            Consulting
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input type="hidden" name="sip" value=0 />
+                          <input class="form-check-input" type="checkbox" name="sip" value=1>
+                          <label class="form-check-label" for="securityNotify">
+                            Summer Internship Program
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input type="hidden" name="p" value=0 />
+                          <input class="form-check-input" type="checkbox" name="p" value=1>
+                          <label class="form-check-label" for="securityNotify">
+                            Placements
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input type="hidden" name="ic" value=0 />
+                          <input class="form-check-input" type="checkbox" name="ic" value=1>
+                          <label class="form-check-label" for="securityNotify">
+                            Incubation Center
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input type="hidden" name="lps" value=0 />
+                          <input class="form-check-input" type="checkbox" name="lps" value=1>
+                          <label class="form-check-label" for="securityNotify">
+                            Live Projects for Students
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input type="hidden" name="csr" value=0 />
+                          <input class="form-check-input" type="checkbox" name="csr" value=1>
+                          <label class="form-check-label" for="securityNotify">
+                            CSR / Social Development Programme
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input type="hidden" name="ssp" value=0 />
+                          <input class="form-check-input" type="checkbox" name="ssp" value=1>
+                          <label class="form-check-label" for="securityNotify">
+                            Student Scholarships Programme
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input type="hidden" name="se" value=0 />
+                          <input class="form-check-input" type="checkbox" name="se" value=1>
+                          <label class="form-check-label" for="securityNotify">
+                            Social Eminence (Social Media Connect)
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                  </form><!-- End settings Form -->
+
+                </div>
+
+              </div><!-- End Bordered Tabs -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>ALUMNI-CONNECT</span></strong>. All Rights Reserved
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets2/vendor/apexcharts/apexcharts.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/chart.js/chart.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/echarts/echarts.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/quill/quill.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/simple-datatables/simple-datatables.js' %}"></script>
+  <script src="{% static 'assets2/vendor/tinymce/tinymce.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets2/js/main.js' %}"></script>
+  <!--<script>
+    function checkPass(org)
+    {    
+      var psw=document.changepass.currentPassword.value;
+      if (org!=psw){  
+        document.getElementById("passwarn").innerHTML="<div class='alert alert-warning alert-dismissible fade show' role='alert'><i class='bi bi-exclamation-triangle me-1'></i>Current password is not correct!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+      }  
+      else{  
+        document.getElementById("passwarn").innerHTML=""; 
+      }  
+    }
+  </script>-->
+
+</body>
+
+</html>

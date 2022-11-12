@@ -47,8 +47,17 @@ class Faculty(models.Model):
   mobile = models.IntegerField(default=0)
   password = models.CharField(max_length=255)
   access = models.IntegerField(default=0)
+  proPic = models.ImageField(upload_to='FacultyProPic/',default="")
+  penNumber = models.IntegerField(default=0)
 
 class AlumniProPic(models.Model):
   proPic = models.ImageField(upload_to='alumniProPic/')
   email = models.CharField(max_length=255,primary_key=True, default="")
-  
+
+class Events(models.Model):
+  name = models.CharField(max_length=255,primary_key=True)
+  date = models.DateField()
+  time = models.TimeField()
+  description = models.CharField(max_length=1000, default="")
+  mode = models.IntegerField(default=0)
+  pic = models.ImageField(upload_to='events/', default="")

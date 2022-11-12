@@ -74,7 +74,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="../alumniSignOut">
+              <a class="dropdown-item d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#signout">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>
@@ -99,7 +99,7 @@
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="../alumniSignOut">
+        <a class="nav-link collapsed"  data-bs-toggle="modal" data-bs-target="#signout">
           <i class="bi bi-box-arrow-right"></i>
           <span>Sign Out</span>
         </a>
@@ -107,6 +107,23 @@
     </ul>
 
   </aside><!-- End Sidebar-->
+  <div class="modal fade" id="signout" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">SignOut</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <center><h4>Are you sure you want to SignOut?</h4></center>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger"><a style="color:white;" href="../alumniSignOut">Confirm</a></button>
+        </div>
+      </div>
+    </div>
+  </div>
   <main id="main" class="main">
 
     <div class="pagetitle">
@@ -114,6 +131,8 @@
       
     </div>
     <!-- End Page Title -->
+    {% if myalumnis.0.profile %}
+
     <section class="section profile">
       <div class="row">
 
@@ -307,6 +326,18 @@
         </div>
       </div>
     </section>
+    
+    {% else %}
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-body pt-3" style="height:400px;">
+            <h4 style="margin: 16% auto auto 25%;">Wait Until the Admin Approves you as an Alumni!</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
 
 </main>
 

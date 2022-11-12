@@ -1,15 +1,16 @@
-from django.http import HttpResponse,HttpResponseRedirect
+import hashlib
+import random
+
+from django.conf import settings
+from django.core.mail import send_mail
+from django.db.models import Q
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.template import loader
 from django.urls import reverse
 from requests import session
-from .models import Alumnis, Faculty, AlumniProfile, AlumniProPic
-import random
-from django.conf import settings
-from django.core.mail import send_mail
-from .forms import *
-from django.db.models import Q
-import hashlib
+
+from .models import *
 
 
 def index(request):
@@ -151,8 +152,7 @@ def authAlumni(request):
     mydata = Alumnis.objects.all()
     for i in mydata:
       if i.email==x:
-        status=AlumniProfile.objects.filter(email=x).count()
-        if status==0:
+        if i.profile==0:
           return redirect('completeProfile')
     return redirect('alumniView')
   elif flag==2:
@@ -235,7 +235,7 @@ def FacultyView(request):
   }
     return HttpResponse(template.render(context, request))
   else:
-    return redirect('FacultySignIn')
+    return redirect('index')
 
 def AdminView(request):
   if 'email' in request.session:
@@ -247,7 +247,7 @@ def AdminView(request):
   }
     return HttpResponse(template.render(context, request))
   else:
-    return redirect('FacultySignIn')
+    return redirect('index')
 
 def grantAccess(request,id):
   al = Faculty.objects.get(id=id)
@@ -295,8 +295,7 @@ def addDetails(request, email):
   se = request.POST['se']
   add = AlumniProfile(email=email,industry=industry, position=position, location=location, specialization=specialization, linkedID=linkedId, gf=gf, cs=cs, fi=fi, research=r,fdp=fdp, mdp=mdp, iv=iv, buddySys=bs, consulting=c, sip=sip, placements=p, ic=ic, lps=lps, csr=csr, ssp=ssp, se=se)
   add.save()
-
-  return HttpResponseRedirect(reverse('alumniView'))
+  return HttpResponseRedirect(reverse('completeProfile'))
 
 def updatePreference(request, email):
   industry = request.POST['industry']
@@ -366,15 +365,94 @@ def alumniList(request):
     pic = AlumniProPic.objects.filter(email=a).values()
     user = Alumnis.objects.filter(email=a).values()
     alumniDetails = AlumniProfile.objects.filter(email=a).values()
-    Alumnis.objects.select_related('AlumniProfile').all()
-    alumniList =Alumnis.objects.filter(~Q(email=a)).values()
+    alumniList =Alumnis.objects.filter(~Q(email=a))
+    alumniD=[]
+    for i in alumniList:
+      cp=AlumniProfile.objects.filter(email=i.email).count()
+      ci=AlumniProPic.objects.filter(email=i.email).count()
+      if cp and ci:
+        x=AlumniProfile.objects.get(email=i.email)
+        y=AlumniProPic.objects.get(email=i.email)
+        alumniD.append([i.email,i.fname,i.lname,x.position,x.linkedID,y.proPic])
+      elif cp:
+        x=AlumniProfile.objects.get(email=i.email)
+        alumniD.append([i.email,i.fname,i.lname,x.position,x.linkedID,""])
     template = loader.get_template('alumniList.html')
     context = {
-    'myalumnis': user,'details':alumniDetails,'pic' : pic, 'alumniList': alumniList,
+    'myalumnis': user,'details':alumniDetails,'pic' : pic, 'alumniList': alumniD,
   }
     return HttpResponse(template.render(context, request))
   else:
     return redirect('index')
 
-#def resetAlumni():
-  
+def addEvent(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    template = loader.get_template('addEvent.html')
+    context = {
+    'myFaculty': user,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+
+def FacultyProfile(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    template = loader.get_template('FacultyProfile.html')
+    context = {
+    'myFaculty': user,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')  
+
+def FacultyProPic(request):
+  if request.method == 'POST' and request.FILES['proPic']:
+    proPic = request.FILES['proPic']
+    email=request.session.get('email')
+    user=Faculty.objects.get(email=email)
+    user.proPic=proPic
+    user.save()
+    return redirect('FacultyProfile')
+  return HttpResponse("Failed to upload")
+def deleteFacultyProPic(request, email):
+  a = Faculty.objects.get(email=email)
+  a.proPic=""
+  a.save()
+  return HttpResponseRedirect(reverse('FacultyProfile'))
+def addEventDetails(request):
+  a=request.session.get('email')
+  ename = request.POST['ename']
+  date = request.POST['date']
+  time = request.POST['time']
+  description = request.POST['description']
+  mode = request.POST['mode']
+  eventPic = request.POST['eventPic']
+  ae=Events(name=ename,date=date,time=time,description=description,mode=mode,pic=eventPic)
+  ae.save()
+  return HttpResponseRedirect(reverse('FacultyView'))
+def upcomingFacultyEvents(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    template = loader.get_template('FacultyUpComingEvents.html')
+    context = {
+    'myFaculty': user,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+def completedFacultyEvents(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    template = loader.get_template('FacultyCompletedEvents.html')
+    context = {
+    'myFaculty': user,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')

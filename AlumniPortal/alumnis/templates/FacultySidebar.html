@@ -5,7 +5,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="">
+        <a class="nav-link collapsed" href="../FacultyView">
           <i class="bi bi-grid"></i>
           <span>Home</span>
         </a>
@@ -16,13 +16,18 @@
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="">
-              <i class="bi bi-circle"></i><span>Upcoming Events</span>
+            <a href="../addEvent">
+              <i class="bi bi-circle"></i><span>Add Event</span>
             </a>
           </li>
           <li>
-            <a href="">
+            <a href="../upcomingFacultyEvents">
               <i class="bi bi-circle"></i><span>Completed Events</span>
+            </a>
+          </li>
+          <li>
+            <a href="../completedFacultyEvents">
+              <i class="bi bi-circle"></i><span>Upcoming Events</span>
             </a>
           </li>
         </ul>
@@ -34,7 +39,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="../alumniSignOut">
+        <a class="nav-link collapsed" data-bs-toggle="modal" data-bs-target="#signout">
           <i class="bi bi-box-arrow-right"></i>
           <span>Sign Out</span>
         </a>
@@ -42,3 +47,21 @@
     </ul>
 
   </aside><!-- End Sidebar-->
+  
+  <div class="modal fade" id="signout" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">SignOut</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <center><h4>Are you sure you want to SignOut?</h4></center>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger"><a style="color:white;" href="../alumniSignOut">Confirm</a></button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -11,6 +11,7 @@ urlpatterns = [
     path('superAdmin', views.superAdmin, name='superAdmin'),
     path('test', views.test, name='test'),
     path('alumniProfile/uploadProPic', views.uploadProPic, name = 'uploadProPic'),
+    path('FacultyProfile/FacultyProPic', views.FacultyProPic, name = 'FacultyProPic'),
     path('alumniReg/', views.alumniReg, name='alumniReg'),
     path('alumniView/', views.alumniView, name='alumniView'),  # type: ignore
     path('alumniReg/addUser/', views.addUser, name='addUser'),
@@ -22,6 +23,7 @@ urlpatterns = [
     path('alumniSignIn/authAlumni', views.authAlumni, name='authAlumni'),  # type: ignore
     path('alumniSignOut', views.alumniSignOut, name='alumniSignOut'),
     path('alumniProfile/', views.alumniProfile, name='alumniProfile'),
+    path('FacultyProfile/', views.FacultyProfile, name='FacultyProfile'),
     path('FacultySignIn', views.FacultySignIn, name='FacultySignIn'),
     path('FacultySignIn/authFaculty', views.authFaculty, name='authFaculty'),  # type: ignore
     path('FacultySignOut', views.FacultySignOut, name='FacultySignOut'),
@@ -35,5 +37,10 @@ urlpatterns = [
     path('alumniProfile/updatePreference/<str:email>', views.updatePreference, name='updatePreference'),
     path('alumniProfile/deleteProPic/<str:email>', views.deleteProPic, name='deleteProPic'),
     path('alumniList/', views.alumniList, name='alumniList'),
+    path('FacultyProfile/deleteFacultyProPic/<str:email>', views.deleteFacultyProPic, name='deleteFacultyProPic'),
+    path('addEvent', views.addEvent, name='addEvent'),
+    path('addEventDetails', views.addEventDetails, name='addEventDetails'),
+    path('upcomingFacultyEvents', views.upcomingFacultyEvents, name='upcomingFacultyEvents'),
+    path('completedFacultyEvents', views.completedFacultyEvents, name='completedFacultyEvents'),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
