@@ -181,7 +181,25 @@
                               </div>
                             </div>
                           </div>
-                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#verticalycentered1" class="btn btn-danger" ><i class="bi bi-trash"></i></button>
+                          <div class="modal fade" id="verticalycentered1" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Remove Profile Picture</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <center><h4>Are you sure want to delete your profile picture?</h4></center>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-danger"><a style="color:white;" href="deleteProPic/{{ myalumnis.0.email }}">Confirm</a></button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
                         </div>
                       </div>
                     </div>

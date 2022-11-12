@@ -8,6 +8,9 @@ import random
 from django.conf import settings
 from django.core.mail import send_mail
 from .forms import *
+from django.db.models import Q
+import hashlib
+
 
 def index(request):
   ouralumnis = Alumnis.objects.all().values()
@@ -148,7 +151,7 @@ def authAlumni(request):
     mydata = Alumnis.objects.all()
     for i in mydata:
       if i.email==x:
-        status=Alumnis.objects.filter(email=x).count()
+        status=AlumniProfile.objects.filter(email=x).count()
         if status==0:
           return redirect('completeProfile')
     return redirect('alumniView')
@@ -351,3 +354,27 @@ def uploadProPic(request):
         img.save()
         return redirect('alumniProfile')
     return HttpResponse("Failed to upload")
+
+def deleteProPic(request, email):
+  a = AlumniProPic.objects.get(email=email)
+  a.delete()
+  return HttpResponseRedirect(reverse('alumniProfile'))
+
+def alumniList(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    pic = AlumniProPic.objects.filter(email=a).values()
+    user = Alumnis.objects.filter(email=a).values()
+    alumniDetails = AlumniProfile.objects.filter(email=a).values()
+    Alumnis.objects.select_related('AlumniProfile').all()
+    alumniList =Alumnis.objects.filter(~Q(email=a)).values()
+    template = loader.get_template('alumniList.html')
+    context = {
+    'myalumnis': user,'details':alumniDetails,'pic' : pic, 'alumniList': alumniList,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+
+#def resetAlumni():
+  

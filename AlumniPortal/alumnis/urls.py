@@ -33,5 +33,7 @@ urlpatterns = [
     path('completeProfile/addDetails/<str:email>', views.addDetails, name='addDetails'),
     path('alumniProfile/updateDetails/<str:email>', views.updateDetails, name='updateDetails'),
     path('alumniProfile/updatePreference/<str:email>', views.updatePreference, name='updatePreference'),
+    path('alumniProfile/deleteProPic/<str:email>', views.deleteProPic, name='deleteProPic'),
+    path('alumniList/', views.alumniList, name='alumniList'),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
