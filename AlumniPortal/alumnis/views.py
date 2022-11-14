@@ -206,21 +206,26 @@ def FacultySignOut(request):
   return redirect(FacultySignIn)
 
 def authFaculty(request):
-  x = request.POST['mail']
+  x = request.POST['penNo']
   y = request.POST['psw']
   mydata = Faculty.objects.all()
   flag=0
+  u=""
+  v=""
   for i in mydata:
-    if i.email==x and i.password==y and i.access==0:
+    if i.penNumber==x and i.password==y and i.access==0:
       flag=1
+      u=i.email
       break
-    elif i.email==x and i.password==y and i.access==1:
+    elif i.penNumber==x and i.password==y and i.access==1:
       flag=2
+      v=i.email
+      break
   if flag==1:
-    request.session['email'] = x
+    request.session['email'] = u
     return redirect('FacultyView')
   elif flag==2:
-    request.session['email'] = x
+    request.session['email'] = v
     return redirect('AdminView')
   else:
     return HttpResponse("<script>alert('Invalid Credentials!');window.history.back();</script>")
@@ -420,7 +425,7 @@ def FacultyProPic(request):
   return HttpResponse("Failed to upload")
 def deleteFacultyProPic(request, email):
   a = Faculty.objects.get(email=email)
-  a.proPic=""
+  a.proPic=""  # type: ignore
   a.save()
   return HttpResponseRedirect(reverse('FacultyProfile'))
 def addEventDetails(request):

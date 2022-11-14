@@ -52,6 +52,10 @@
 
         <div class="row">
           {% for i in alumniList %}
+            {% if forloop.counter|divisibleby:4 == 0 %}
+            </div>
+            <div class="row">
+            {% else %}
             <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
               <div class="member" data-aos="fade-up" data-aos-delay="400">
                 <div class="member-img">
@@ -70,6 +74,7 @@
                 </div>
               </div>
             </div>
+            {% endif %}
           {% endfor %}
         </div>
 
