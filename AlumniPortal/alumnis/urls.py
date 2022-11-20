@@ -55,5 +55,9 @@ urlpatterns = [
     path('approveUser/<str:email>', views.approveUser, name="approveUser"),
     path('viewAlumni/<str:email>', views.viewAlumni, name="viewAlumni"),
     path('facultyGallery/', views.facultyGallery, name="facultyGallery"),
+    path('allEventsFaculty/', views.allEventsFaculty, name="allEventsFaculty"),
+    path('viewFeedbacks/', views.viewFeedbacks, name="viewFeedbacks"),
+    path('positivemail/<str:email>', views.positivemail, name="positivemail"),
+    path('negativemail/<str:email>', views.negativemail, name="negativemail"),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

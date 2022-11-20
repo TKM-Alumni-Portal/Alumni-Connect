@@ -55,33 +55,33 @@
             <div class="card">
                 <div class="card-body pt-3">
                     <h4>Event Details</h4><br>
-                    <form method="POST" action="../addEventDetails/">
+                    <form method="POST" action="../addEventDetails/" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row mb-3">
                           <label for="ename" class="col-md-4 col-lg-3 col-form-label">Event Name</label>
                           <div class="col-md-8 col-lg-9">
-                            <input name="ename" type="text" class="form-control">
+                            <input name="ename" type="text" class="form-control" required>
                           </div>
                         </div>
     
                         <div class="row mb-3">
                           <label for="date" class="col-md-4 col-lg-3 col-form-label">Date</label>
                           <div class="col-md-8 col-lg-9">
-                            <input name="date" type="date" class="form-control">
+                            <input name="date" type="date" class="form-control" required>
                           </div>
                         </div>
     
                         <div class="row mb-3">
                           <label for="time" class="col-md-4 col-lg-3 col-form-label">Time</label>
                           <div class="col-md-8 col-lg-9">
-                            <input name="time" type="time" class="form-control">
+                            <input name="time" type="time" class="form-control" required>
                           </div>
                         </div>
     
                         <div class="row mb-3">
                           <label for="description" class="col-md-4 col-lg-3 col-form-label">Description</label>
                           <div class="col-md-8 col-lg-9">
-                            <textarea name="description" rows="5" class="form-control"></textarea>
+                            <textarea name="description" rows="5" class="form-control" required></textarea>
                           </div>
                         </div>
                         
@@ -89,7 +89,6 @@
                             <label for="mode" class="col-md-4 col-lg-3 col-form-label">Mode</label>
                             <div class="col-md-8 col-lg-9">
                               <select class="form-control" name="mode">
-                                <option>-----Choose Mode-----</option>
                                 <option value="0">Offline</option>
                                 <option value="1">Online</option>
                               </select>
@@ -98,7 +97,7 @@
                         <div class="row mb-3">
                             <label for="eventPic" class="col-md-4 col-lg-3 col-form-label">Event Picture</label>
                             <div class="col-md-8 col-lg-9">
-                                <input type="file" class="form-control" name="eventPic" accept=".jpeg, .jpg, .png">
+                                <input type="file" class="form-control" name="pic" accept=".jpeg, .jpg, .png" required>
                             </div>
                         </div>
                         <div class="text-center">

@@ -52,25 +52,35 @@
       <h1>Gallery</h1>
       
     </div><!-- End Page Title -->
-    <section id="services" class="services">
+    <!-- ======= Portfolio Section ======= -->
+    <section id="portfolio" class="portfolio">
       <div class="container">
-        <div class="row">
-          {% for i in events %}
-          <div class="col-lg-3">
 
-            <!-- Card with an image on top -->
-            <div class="card">
-              <img src="{% static 'assets2/img/card.jpg' %}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">{{ i.0 }}</h5>
-                <p class="card-text">{{i.3}}</p>
+        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="400">
+          {% for i in events %}
+          
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <div class="portfolio-wrap">
+              {% if i.pic %}
+                <img src="{% static 'media/' %}{{ i.pic }}" class="img-fluid" alt="">
+              {% else %}
+              <img src="{% static 'assets2/img/events/defaultevent.png' %}" class="img-fluid" alt="">
+              {% endif %}
+              <div class="portfolio-info">
+                <h4>{{ i.name }}</h4>
+                <p>{{ i.date }} At {{ i.time }}</p>
+                <div class="portfolio-links">
+                  <a href="{% static 'assets/img/portfolio/portfolio-1.jpg' %}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Add Image"><i class="bx bx-plus"></i></a>
+                  <a href="portfolio-details.html" title="View Images"><i class="bi bi-eye-fill"></i></a>
+                </div>
               </div>
-            </div><!-- End Card with an image on top -->
-  
+            </div>
           </div>
-        {% endfor %}
+          {% endfor %}
+        </div>
+
       </div>
-    </section> <!--End Page Title -->
+    </section>
 </main>
 
   <!-- ======= Footer ======= -->

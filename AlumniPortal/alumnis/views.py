@@ -267,9 +267,21 @@ def AdminView(request):
   if 'email' in request.session:
     f=request.session.get('email')
     user = Faculty.objects.filter(email=f).values()
+    alumniList =Alumnis.objects.all()
+    alumniD=[]
+    for i in alumniList:
+      cp=AlumniProfile.objects.filter(email=i.email).count()
+      ci=AlumniProPic.objects.filter(email=i.email).count()
+      if int(cp)>0 and int(ci)>0:
+        x=AlumniProfile.objects.get(email=i.email)
+        y=AlumniProPic.objects.get(email=i.email)
+        alumniD.append([i.email,i.fname,i.lname,x.linkedID,y.proPic])
+      elif int(cp)>0 and int(ci)==0:
+        x=AlumniProfile.objects.get(email=i.email)
+        alumniD.append([i.email,i.fname,i.lname,x.linkedID,0])
     template = loader.get_template('AdminView.html')
     context = {
-    'myFaculty': user,
+    'myFaculty': user,'alumniList': alumniD,
   }
     return HttpResponse(template.render(context, request))
   else:
@@ -457,13 +469,13 @@ def addEventDetails(request):
   time = request.POST['time']
   description = request.POST['description']
   mode = request.POST['mode']
-  eventPic = request.POST['eventPic']
+  pic = request.FILES['pic']
   if d.access==0:
-    ae=Events(name=ename,date=date,time=time,description=description,mode=mode,pic=eventPic)
+    ae=Events(name=ename,date=date,time=time,description=description,mode=mode,pic=pic)
     ae.save()
     return HttpResponseRedirect(reverse('FacultyView'))
   else:
-    ae=Events(name=ename,date=date,time=time,description=description,mode=mode,pic=eventPic,status=1)
+    ae=Events(name=ename,date=date,time=time,description=description,mode=mode,pic=pic,status=1)
     ae.save()
     return HttpResponseRedirect(reverse('AdminView'))
 def upcomingFacultyEvents(request):
@@ -627,6 +639,8 @@ def completedEventsFaculty(request):
     for i in events:
       if i.status==1:
         if i.date < date.today():
+          if len(i.description)>100:
+            i.description=i.description[0:100]+"..."
           if i.pic:
             event.append([i.name,i.date,i.time,i.description,i.mode,i.pic])
           else:
@@ -686,10 +700,10 @@ def allEventsFaculty(request):
   if 'email' in request.session:
     a=request.session.get('email')
     user = Faculty.objects.filter(email=a).values()
-    events = Events.objects.filter(status=1)
-    template = loader.get_template('FacultyGallery.html')
+    events = Events.objects.all().order_by('-date').values()
+    template = loader.get_template('allEventsFaculty.html')
     context = {
-    'myFaculty': user,
+    'myFaculty': user, 'events':events,
   }
     return HttpResponse(template.render(context, request))
   else:
@@ -699,11 +713,47 @@ def facultyGallery(request):
   if 'email' in request.session:
     a=request.session.get('email')
     user = Faculty.objects.filter(email=a).values()
-    gallery = Gallery.objects.filter(status=1).order_by('-id')
+    events = Events.objects.filter(status=1).order_by('-date')
     template = loader.get_template('FacultyGallery.html')
     context = {
-    'myFaculty': user,
+    'myFaculty': user,'events':events,
   }
     return HttpResponse(template.render(context, request))
   else:
     return redirect('index')
+
+def viewFeedbacks(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    feedback =Feedbacks.objects.filter(status=0).order_by('-date')
+    template = loader.get_template('viewFeedbacks.html')
+    context = {
+    'myFaculty': user,'feedback':feedback,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+
+def positivemail(request,email):
+  subject = 'Thank you for the complement.'
+  u = Feedbacks.objects.get(email=email)
+  message = f'Hi '+u.name+', Thank you for contacting Alumni-Connect. We value valuable feedbacks from users. You can contact us if you find any difficulties in our site. We are always here for you.'
+  email_from = settings.EMAIL_HOST_USER
+  recipient_list = [email, ]
+  send_mail( subject, message, email_from, recipient_list )
+  u.status=1
+  u.save()
+  return HttpResponseRedirect('../viewFeedbacks')
+
+def negativemail(request,email):
+  subject = 'Sorry for the inconvenience.'
+  u = Feedbacks.objects.get(email=email)
+  message = f'Hi '+u.name+', Sorry for the inconvenience, We will resolve the issue as soon as possible and Thank you for contacting us.'
+  email_from = settings.EMAIL_HOST_USER
+  recipient_list = [email, ]
+  send_mail( subject, message, email_from, recipient_list )
+  u = Feedbacks.objects.get(email=email)
+  u.status=1
+  u.save()
+  return HttpResponseRedirect('../viewFeedbacks')

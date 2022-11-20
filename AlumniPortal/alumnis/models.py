@@ -1,3 +1,4 @@
+from datetime import date
 from os import access
 from django.db import models
 from traitlets import default
@@ -69,6 +70,7 @@ class Feedbacks(models.Model):
   subject = models.CharField(max_length=500)
   message = models.CharField(max_length=1500)
   status = models.IntegerField(default=0)
+  date = models.DateField(default=date.today())
 
 class Gallery(models.Model):
   eventName = models.CharField(max_length=300)
