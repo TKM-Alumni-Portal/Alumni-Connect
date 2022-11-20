@@ -69,13 +69,13 @@
                     <td>{{ i.name }}</td>
                     <td>{{ i.date }}</td>
                     <td>{{ i.time }}</td>
-                    <td><span class="badge bg-success"><a style="color:white;" href="../viewEvent/{{ i.name }}">View</a> </span></td>
+                    <td><span class="badge bg-success"><a style="color:white;" href="../viewEvent/{{ i.date|upper }}">View</a> </span></td>
                     {% if i.status %}
                     <td><span class="badge bg-info">Approved</span></td>
                     {% else %}
-                    <td><span class="badge bg-primary"> <a style="color:white;" href="../approveEvent/{{ i.name }}">Approve</a> </span></td>
+                    <td><span class="badge bg-primary"> <a style="color:white;" href="../approveEvent/{{ i.date|upper }}">Approve</a> </span></td>
                     {% endif %}
-                    <td><span class="badge bg-danger"> <a style="color:white;" href="../deleteEvent/{{ i.name }}">Delete</a> </span></td>
+                    <td><span class="badge bg-danger"> <a style="color:white;" href="../deleteEvent/{{ i.date|upper }}">Delete</a> </span></td>
                 </tr>
                 {% endfor %}
               </tbody>

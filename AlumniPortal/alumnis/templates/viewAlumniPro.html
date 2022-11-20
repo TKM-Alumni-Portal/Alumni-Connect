@@ -28,7 +28,6 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'assets2/css/style.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: ALUMNI-CONNECT - v2.4.1
@@ -39,13 +38,8 @@
 </head>
 
 <body>
-  {% if myFaculty.0.access %}
-    {% include 'AdminHeader.html' %}
-    {% include 'AdminSidebar.html' %}
-  {% else %}
-    {% include 'FacultyHeader.html' %}
-    {% include 'FacultySidebar.html' %}
-  {% endif %}
+  {% include 'alumniHeader.html' %}
+  {% include 'alumniSidebar.html' %}
   <main id="main" class="main">
 
     <div class="pagetitle">
@@ -58,20 +52,18 @@
 
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-              {% if pic.0.proPic %}
-                <img src="{% static 'media/' %}{{ pic.0.proPic }}"  alt="Profile" class="rounded-circle">
+              {% if alpic.0.proPic %}
+                <img src="{% static 'media/' %}{{ alpic.0.proPic }}"  alt="Profile" class="rounded-circle">
               {% else %}
                 <img src="{% static 'assets2/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
               {% endif %}
               <!--<img src="{% static 'assets2/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">-->
-              <h2>{{ alumni.0.fname }} {{ alumni.0.lname }}</h2>
-              {% if alumni.0.profile == 2 %}
-              {% if myFaculty.0.access %}
-              <span class="badge bg-primary"> <a style="color:white;" href="../approveUser/{{ alumni.0.email }}">Approve</a> </span>
-              {% endif %}
+              <h2>{{ al.0.fname }} {{ al.0.lname }}</h2>
+              {% if al.0.profile == 2 %}
+              <span class="badge bg-primary"> <a style="color:white;" href="../approveUser/{{ al.0.email }}">Approve</a> </span>
               {% endif %}
               <div class="social-links mt-2">
-                <a href="{{ details.0.linkedID }}" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                <a href="{{ aldetails.0.linkedID }}" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
               </div>
             </div>
           </div>
@@ -101,42 +93,42 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                    <div class="col-lg-9 col-md-8">{{ alumni.0.fname }} {{ alumni.0.lname }}</div>
+                    <div class="col-lg-9 col-md-8">{{ al.0.fname }} {{ al.0.lname }}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Branch</div>
-                    <div class="col-lg-9 col-md-8">{{ alumni.0.branch }}</div>
+                    <div class="col-lg-9 col-md-8">{{ al.0.branch }}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Year of Admission</div>
-                    <div class="col-lg-9 col-md-8">{{ alumni.0.yoa }}</div>
+                    <div class="col-lg-9 col-md-8">{{ al.0.yoa }}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Industry / Domain</div>
-                    <div class="col-lg-9 col-md-8">{{ details.0.industry }}</div>
+                    <div class="col-lg-9 col-md-8">{{ aldetails.0.industry }}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Job Title</div>
-                    <div class="col-lg-9 col-md-8">{{ details.0.position }}</div>
+                    <div class="col-lg-9 col-md-8">{{ aldetails.0.position }}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Job Location</div>
-                    <div class="col-lg-9 col-md-8">{{ details.0.location }}</div>
+                    <div class="col-lg-9 col-md-8">{{ aldetails.0.location }}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Mobile Number</div>
-                    <div class="col-lg-9 col-md-8">{{ alumni.0.mobile }}</div>
+                    <div class="col-lg-9 col-md-8">{{ al.0.mobile }}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Email</div>
-                    <div class="col-lg-9 col-md-8">{{ alumni.0.email }}</div>
+                    <div class="col-lg-9 col-md-8">{{ al.0.email }}</div>
                   </div>
 
                 </div>
@@ -145,7 +137,7 @@
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Area(s) Interested in contributing</label>
                     <div class="col-md-8 col-lg-9">
                       <div class="form-check">
-                        {% if details.0.gf %}
+                        {% if aldetails.0.gf %}
                           <input class="form-check-input" type="checkbox" name="gf" checked disabled>
                         {% else %}
                           <input class="form-check-input" type="checkbox" name="gf" disabled>
@@ -154,7 +146,7 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        {% if details.0.cs %}
+                        {% if aldetails.0.cs %}
                         <input class="form-check-input" type="checkbox" name="cs" checked disabled>
                         {% else %}
                         <input class="form-check-input" type="checkbox" name="cs" disabled>
@@ -163,7 +155,7 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        {% if details.0.fi %}
+                        {% if aldetails.0.fi %}
                           <input class="form-check-input" type="checkbox" name="fi" checked disabled>
                         {% else %}
                           <input class="form-check-input" type="checkbox" name="fi" disabled>
@@ -172,7 +164,7 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        {% if details.0.research %}
+                        {% if aldetails.0.research %}
                           <input class="form-check-input" type="checkbox" name="r" checked disabled>
                         {% else %}
                           <input class="form-check-input" type="checkbox" name="r" disabled>
@@ -181,7 +173,7 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        {% if details.0.fdp %}
+                        {% if aldetails.0.fdp %}
                           <input class="form-check-input" type="checkbox" name="fdp" checked disabled>
                         {% else %}
                           <input class="form-check-input" type="checkbox" name="fdp" disabled>
@@ -190,7 +182,7 @@
                         </label>
                       </div> 
                       <div class="form-check">
-                        {% if details.0.mdp %}
+                        {% if aldetails.0.mdp %}
                           <input class="form-check-input" type="checkbox" name="mdp" checked disabled>
                         {% else %}
                           <input class="form-check-input" type="checkbox" name="mdp" disabled>
@@ -199,7 +191,7 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        {% if details.0.iv %}
+                        {% if aldetails.0.iv %}
                           <input class="form-check-input" type="checkbox" name="iv" checked disabled>
                         {% else %}
                           <input class="form-check-input" type="checkbox" name="iv" disabled>
@@ -208,7 +200,7 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        {% if details.0.buddySys %}
+                        {% if aldetails.0.buddySys %}
                           <input class="form-check-input" type="checkbox" name="bs" checked disabled>
                         {% else %}
                           <input class="form-check-input" type="checkbox" name="bs" disabled>
@@ -217,7 +209,7 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        {% if details.0.consulting %}
+                        {% if aldetails.0.consulting %}
                           <input class="form-check-input" type="checkbox" name="c" checked disabled>
                         {% else %}
                           <input class="form-check-input" type="checkbox" name="c" disabled>
@@ -226,7 +218,7 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        {% if details.0.sip %}
+                        {% if aldetails.0.sip %}
                           <input class="form-check-input" type="checkbox" name="sip" checked disabled>
                         {% else %}
                           <input class="form-check-input" type="checkbox" name="sip" disabled>
@@ -235,7 +227,7 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        {% if details.0.placements %}
+                        {% if aldetails.0.placements %}
                           <input class="form-check-input" type="checkbox" name="gf" checked disabled>
                         {% else %}
                           <input class="form-check-input" type="checkbox" name="gf" disabled>
@@ -244,7 +236,7 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        {% if details.0.ic %}
+                        {% if aldetails.0.ic %}
                           <input class="form-check-input" type="checkbox" name="ic" checked disabled>
                         {% else %}
                           <input class="form-check-input" type="checkbox" name="ic" disabled>
@@ -253,7 +245,7 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        {% if details.0.lps %}
+                        {% if aldetails.0.lps %}
                           <input class="form-check-input" type="checkbox" name="lps" checked disabled>
                         {% else %}
                           <input class="form-check-input" type="checkbox" name="lps" disabled>
@@ -262,7 +254,7 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        {% if details.0.csr %}
+                        {% if aldetails.0.csr %}
                           <input class="form-check-input" type="checkbox" name="csr" checked disabled>
                         {% else %}
                           <input class="form-check-input" type="checkbox" name="csr" disabled>
@@ -271,7 +263,7 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        {% if details.0.ssp %}
+                        {% if aldetails.0.ssp %}
                           <input class="form-check-input" type="checkbox" name="ssp" checked disabled>
                         {% else %}
                           <input class="form-check-input" type="checkbox" name="ssp" disabled>
@@ -280,7 +272,7 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        {% if details.0.se %}
+                        {% if aldetails.0.se %}
                           <input class="form-check-input" type="checkbox" name="se" checked disabled>
                         {% else %}
                           <input class="form-check-input" type="checkbox" name="se" disabled>

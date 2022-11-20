@@ -176,10 +176,10 @@
                   <td>{{ i.fname|upper }} {{ i.lname|upper }}</td>
                   {% if i.access %}
                     <td><span class="badge bg-success"><font color="white"> ADMIN</font> </span></td>
-                    <td><span class="badge bg-primary"> <a style="color:white;" href="revokeAccess/{{ i.id }}">REVOKE</a> </span></td>
+                    <td><span class="badge bg-primary"> <a style="color:white;" href="../revokeAccess/{{ i.email }}">REVOKE</a> </span></td>
                   {% else %}
                     <td></td>
-                    <td><span class="badge bg-success"> <a style="color:white;" href="grantAccess/{{ i.id }}">GRANT</a> </span></td>
+                    <td><span class="badge bg-success"> <a style="color:white;" href="../grantAccess/{{ i.email }}">GRANT</a> </span></td>
                   {% endif %}
                 </tr>
                 {% endfor %}

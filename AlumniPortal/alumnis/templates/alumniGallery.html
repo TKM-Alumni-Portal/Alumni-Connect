@@ -27,6 +27,7 @@
   <link href="{% static 'assets2/vendor/simple-datatables/style.css' %}" rel="stylesheet">
 
   <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
   <link href="{% static 'assets2/css/style.css' %}" rel="stylesheet">
 
   <!-- =======================================================
@@ -43,9 +44,42 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Home</h1>
-      
+      <h1>Gallery</h1>
     </div><!-- End Page Title -->
+    <!-- ======= Portfolio Section ======= -->
+    <section id="portfolio" class="portfolio">
+      <div class="container">
+        <h5 class="card-title">Categorized By Events</h5>
+        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="400">
+          {% for i in events %}
+          
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <div class="portfolio-wrap">
+              {% if i.pic %}
+                <img src="{% static 'media/' %}{{ i.pic }}" class="img-fluid" alt="">
+              {% else %}
+              <img src="{% static 'assets2/img/events/defaultevent.png' %}" class="img-fluid" alt="">
+              {% endif %}
+              <div class="portfolio-info">
+                <h4>{{ i.name }}</h4>
+                <p>{{ i.date }} At {{ i.time }}</p>
+                <div class="portfolio-links">
+                {% if i.pic %}
+                <a href="{% static 'media/' %}{{ i.pic }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Add Image"><i class="bx bx-plus"></i></a>
+                {% else %}
+                <a href="{% static 'assets2/img/events/defaultevent.png' %}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Add Image"><i class="bx bx-plus"></i></a>
+                {% endif %}
+                  
+                  <a href="../viewCategory" title="View Images"><i class="bi bi-eye-fill"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+    </section>
 </main>
 
   <!-- ======= Footer ======= -->

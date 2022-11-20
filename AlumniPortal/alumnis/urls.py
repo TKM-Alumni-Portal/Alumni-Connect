@@ -39,8 +39,8 @@ urlpatterns = [
     path('FacultySignOut', views.FacultySignOut, name='FacultySignOut'),
     path('FacultyView/', views.FacultyView, name='FacultyView'),
     path('AdminView/', views.AdminView, name='AdminView'),
-    path('grantAccess/<int:id>', views.grantAccess, name="grantAccess"),
-    path('revokeAccess/<int:id>', views.revokeAccess, name="revokeAccess"),
+    path('grantAccess/<str:email>', views.grantAccess, name="grantAccess"),
+    path('revokeAccess/<str:email>', views.revokeAccess, name="revokeAccess"),
     path('completeProfile/', views.completeProfile, name='completeProfile'),
     path('completeProfile/addDetails/<str:email>', views.addDetails, name='addDetails'),
     path('alumniProfile/updateDetails/<str:email>', views.updateDetails, name='updateDetails'),
@@ -61,5 +61,9 @@ urlpatterns = [
     path('negativemail/<str:email>', views.negativemail, name="negativemail"),
     path('addFaculty/', views.addFaculty, name='addFaculty'),
     path('addFacultyDetails/', views.addFacultyDetails, name='addFacultyDetails'),
+    path('approveEvent/<str:date>', views.approveEvent, name='approveEvent'),
+    path('deleteEvent/<str:date>', views.deleteEvent, name='deleteEvent'),
+    path('viewAlumniPro/<str:email>', views.viewAlumniPro, name="viewAlumniPro"),
+    path('alumniGallery/', views.alumniGallery, name="alumniGallery"),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
