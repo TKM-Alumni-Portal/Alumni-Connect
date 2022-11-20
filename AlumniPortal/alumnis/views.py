@@ -193,9 +193,9 @@ def authAlumni(request):
     return HttpResponse("<script>alert('No account belongs to the details entered!');window.history.back();</script>")
 
 
-def verifyAlumni(request,id):
+def verifyAlumni(request,email):
   o = request.POST['otp']
-  al = Alumnis.objects.get(id=id)
+  al = Alumnis.objects.get(email=email)
   if str(al.otp)==o:
     al.verified=1
     al.save()
@@ -757,3 +757,12 @@ def negativemail(request,email):
   u.status=1
   u.save()
   return HttpResponseRedirect('../viewFeedbacks')
+
+def addFaculty(request):
+  if 'email' in request.session:
+    name = request.POST['name']
+    f = Feedbacks(name=name, email=email, subject=sub, message=message)
+    f.save()
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')

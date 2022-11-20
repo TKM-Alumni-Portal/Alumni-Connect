@@ -13,7 +13,7 @@ urlpatterns = [
     path('changePassword',views.changePassword, name="changePassword"),
     path('changeFacultyPassword',views.changeFacultyPassword, name="changeFacultyPassword"),
     path('feedback', views.feedback, name='feedback'),
-    path('superAdmin', views.superAdmin, name='superAdmin'),
+    path('superAdmin/', views.superAdmin, name='superAdmin'),
     path('sAdminSignIn', views.sAdminSignIn, name='sAdminSignIn'),
     path('sAdminSignIn/authSAdmin', views.authSAdmin, name='authSAdmin'),
     path('sAdminSignOut', views.sAdminSignOut, name='sAdminSignOut'),
@@ -24,7 +24,7 @@ urlpatterns = [
     path('alumniView/', views.alumniView, name='alumniView'),
     path('alumniApproval/', views.alumniApproval, name='alumniApproval'),  # type: ignore
     path('alumniReg/addUser/', views.addUser, name='addUser'),
-    path('alumniReg/addUser/verifyAlumni/<int:id>', views.verifyAlumni, name='verifyAlumni'),
+    path('alumniReg/addUser/verifyAlumni/<str:email>', views.verifyAlumni, name='verifyAlumni'),
     path('delete/<int:id>', views.delete, name='delete'),
     path('update/<int:id>', views.update, name='update'),
     path('update/updaterecord/<int:id>', views.updaterecord, name='updaterecord'),
@@ -59,5 +59,6 @@ urlpatterns = [
     path('viewFeedbacks/', views.viewFeedbacks, name="viewFeedbacks"),
     path('positivemail/<str:email>', views.positivemail, name="positivemail"),
     path('negativemail/<str:email>', views.negativemail, name="negativemail"),
+    path('addFaculty/', views.addFaculty, name='addFaculty'),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

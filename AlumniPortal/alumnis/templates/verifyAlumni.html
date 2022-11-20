@@ -105,7 +105,7 @@ label{
         <center>
       <div class="container col-lg-4">
         <h2>Verify Account</h2>
-        <form action="verifyAlumni/{{ al.id }}" method="post">
+        <form action="verifyAlumni/{{ al.email }}" method="post">
             {% csrf_token %}
             <label>OTP</label><br>
             <input type="text" name="otp" placeholder="Enter the OTP" required>
