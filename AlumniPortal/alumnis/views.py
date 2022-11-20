@@ -758,11 +758,34 @@ def negativemail(request,email):
   u.save()
   return HttpResponseRedirect('../viewFeedbacks')
 
-def addFaculty(request):
+
+def addFacultyDetails(request):
   if 'email' in request.session:
-    name = request.POST['name']
-    f = Feedbacks(name=name, email=email, subject=sub, message=message)
+    fname = request.POST['fname']
+    lname = request.POST['lname']
+    email = request.POST['email']
+    mobile = request.POST['mobile']
+    penNumber = request.POST['penNumber']
+    f = Faculty(fname=fname, lname=lname, email=email, mobile=mobile, penNumber=penNumber,password=penNumber)
     f.save()
-    return HttpResponse(template.render(context, request))
+    return HttpResponseRedirect('../superAdmin')
   else:
     return redirect('index')
+
+def addFaculty(request):
+  if 'email' in request.session:
+    template = loader.get_template('addFaculty.html')
+    return HttpResponse(template.render({}, request))
+  else:
+    return redirect('index')
+
+def approveEvent(request,name):
+  event = Events.objects.get(name=name)
+  event.status=1
+  event.save()
+  return HttpResponseRedirect('../allEventsFaculty')
+
+def deleteEvent(request, name):
+  event = Events.objects.get(name=name)
+  event.delete()
+  return HttpResponseRedirect('../allEventsFaculty')

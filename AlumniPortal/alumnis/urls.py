@@ -60,5 +60,6 @@ urlpatterns = [
     path('positivemail/<str:email>', views.positivemail, name="positivemail"),
     path('negativemail/<str:email>', views.negativemail, name="negativemail"),
     path('addFaculty/', views.addFaculty, name='addFaculty'),
+    path('addFacultyDetails/', views.addFacultyDetails, name='addFacultyDetails'),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

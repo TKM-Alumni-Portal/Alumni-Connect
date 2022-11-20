@@ -108,8 +108,8 @@
         </li><!-- End Dashboard Nav -->
         <li class="nav-item">
           <a class="nav-link collapsed" href="../addFaculty">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Sign Out</span>
+            <i class="bi bi-file-earmark-person-fill"></i>
+            <span>Add Faculty</span>
           </a>
         </li>
         <li class="nav-item">
@@ -134,7 +134,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger"><a style="color:white;" href="sAdminSignOut">Confirm</a></button>
+            <button type="button" class="btn btn-danger"><a style="color:white;" href="../sAdminSignOut">Confirm</a></button>
           </div>
         </div>
       </div>
@@ -143,53 +143,53 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>SuperAdmin Dashboard</h1>
+      <h1>Add Faculty</h1>
     </div><!-- End Page Title -->
 
-    <section class="">
-      <div class="row">
-        <div class="col-12">
-          <div class="card-body">
-            <h5 class="card-title">Permissions</h5>
-
-            <table class="table table-borderless datatable">
-              <thead>
-                <tr>
-                  <th scope="col">Pen Number</th>
-                  <th scope="col">Faculty Image</th>
-                  <th scope="col">Faculty Name</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Permission</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for i in faculty %}
-                <tr>
-                  <th scope="row"><a href="#">{{ i.penNumber }}</a></th>
-                  <td style="text-align:center;">
-                  {% if i.proPic %}
-                  <img height="60" src="{% static 'media/' %}{{ i.proPic }}" alt="Profile" class="rounded-circle">
-                  {% else %}
-                  <img height="60" src="{% static 'assets2/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
-                  {% endif %}
-                  </td>
-                  <td>{{ i.fname|upper }} {{ i.lname|upper }}</td>
-                  {% if i.access %}
-                    <td><span class="badge bg-success"><font color="white"> ADMIN</font> </span></td>
-                    <td><span class="badge bg-primary"> <a style="color:white;" href="revokeAccess/{{ i.id }}">REVOKE</a> </span></td>
-                  {% else %}
-                    <td></td>
-                    <td><span class="badge bg-success"> <a style="color:white;" href="grantAccess/{{ i.id }}">GRANT</a> </span></td>
-                  {% endif %}
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-
+    <div class="row">
+      <div class="col-xl-9">
+          <div class="card">
+              <div class="card-body pt-3">
+                  <form method="POST" action="../addFacultyDetails/">
+                      {% csrf_token %}
+                      <div class="row mb-3">
+                        <label for="fname" class="col-md-4 col-lg-3 col-form-label">First Name</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="fname" type="text" class="form-control" required>
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <label for="lname" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="lname" type="text" class="form-control" required>
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <label for="email" class="col-md-4 col-lg-3 col-form-label">Email Id</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="email" type="email" class="form-control" required>
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <label for="mobile" class="col-md-4 col-lg-3 col-form-label">Mobile</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="mobile" type="text" pattern="(6|7|8|9)\d{9}" class="form-control" required>
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <label for="penNumber" class="col-md-4 col-lg-3 col-form-label">Pen Number</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="penNumber" type="text" pattern="\d{8}" class="form-control" required>
+                        </div>
+                      </div>
+                      <div class="text-center">
+                          <button type="submit" class="btn btn-primary">Save</button>
+                      </div>
+                  </form>
+              </div>
           </div>
-        </div>
       </div>
-    </section>
+  </div>    
 
   </main>
 
