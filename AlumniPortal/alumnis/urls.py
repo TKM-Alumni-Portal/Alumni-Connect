@@ -8,12 +8,21 @@ from django.contrib import admin
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('upcomingEventsFaculty/',views.upcomingEventsFaculty, name="upcomingEventsFaculty"),
+    path('upcomingEventsAlumni/',views.upcomingEventsAlumni, name="upcomingEventsAlumni"),
+    path('changePassword',views.changePassword, name="changePassword"),
+    path('changeFacultyPassword',views.changeFacultyPassword, name="changeFacultyPassword"),
+    path('feedback', views.feedback, name='feedback'),
     path('superAdmin', views.superAdmin, name='superAdmin'),
+    path('sAdminSignIn', views.sAdminSignIn, name='sAdminSignIn'),
+    path('sAdminSignIn/authSAdmin', views.authSAdmin, name='authSAdmin'),
+    path('sAdminSignOut', views.sAdminSignOut, name='sAdminSignOut'),
     path('test', views.test, name='test'),
     path('alumniProfile/uploadProPic', views.uploadProPic, name = 'uploadProPic'),
     path('FacultyProfile/FacultyProPic', views.FacultyProPic, name = 'FacultyProPic'),
     path('alumniReg/', views.alumniReg, name='alumniReg'),
-    path('alumniView/', views.alumniView, name='alumniView'),  # type: ignore
+    path('alumniView/', views.alumniView, name='alumniView'),
+    path('alumniApproval/', views.alumniApproval, name='alumniApproval'),  # type: ignore
     path('alumniReg/addUser/', views.addUser, name='addUser'),
     path('alumniReg/addUser/verifyAlumni/<int:id>', views.verifyAlumni, name='verifyAlumni'),
     path('delete/<int:id>', views.delete, name='delete'),
@@ -23,6 +32,7 @@ urlpatterns = [
     path('alumniSignIn/authAlumni', views.authAlumni, name='authAlumni'),  # type: ignore
     path('alumniSignOut', views.alumniSignOut, name='alumniSignOut'),
     path('alumniProfile/', views.alumniProfile, name='alumniProfile'),
+    path('adminAlumniList/', views.adminAlumniList, name='adminAlumniList'),
     path('FacultyProfile/', views.FacultyProfile, name='FacultyProfile'),
     path('FacultySignIn', views.FacultySignIn, name='FacultySignIn'),
     path('FacultySignIn/authFaculty', views.authFaculty, name='authFaculty'),  # type: ignore
@@ -38,9 +48,12 @@ urlpatterns = [
     path('alumniProfile/deleteProPic/<str:email>', views.deleteProPic, name='deleteProPic'),
     path('alumniList/', views.alumniList, name='alumniList'),
     path('FacultyProfile/deleteFacultyProPic/<str:email>', views.deleteFacultyProPic, name='deleteFacultyProPic'),
-    path('addEvent', views.addEvent, name='addEvent'),
-    path('addEventDetails', views.addEventDetails, name='addEventDetails'),
-    path('upcomingFacultyEvents', views.upcomingFacultyEvents, name='upcomingFacultyEvents'),
-    path('completedFacultyEvents', views.completedFacultyEvents, name='completedFacultyEvents'),
+    path('addEvent/', views.addEvent, name='addEvent'),
+    path('addEventDetails/', views.addEventDetails, name='addEventDetails'),
+    path('completedEventsFaculty/', views.completedEventsFaculty, name='completedEventsFaculty'),
+    path('completedEventsAlumni/', views.completedEventsAlumni, name='completedEventsAlumni'),
+    path('approveUser/<str:email>', views.approveUser, name="approveUser"),
+    path('viewAlumni/<str:email>', views.viewAlumni, name="viewAlumni"),
+    path('facultyGallery/', views.facultyGallery, name="facultyGallery"),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

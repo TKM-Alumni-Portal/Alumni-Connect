@@ -44,7 +44,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Our Alumnis</h1>
+      <h1>Our Alumni</h1>
       
     </div><!-- End Page Title -->
     <section id="team" class="team section-bg">
@@ -60,7 +60,7 @@
               <div class="member" data-aos="fade-up" data-aos-delay="400">
                 <div class="member-img">
                   {% if i.5 %}
-                    <img src="{% static 'media/' %}{{ pic.0.proPic }}" class="img-fluid" alt="">
+                    <img src="{% static 'media/' %}{{ i.5 }}" class="img-fluid" alt="">
                   {% else %}
                     <img src="{% static 'assets2/img/profile-img.jpg' %}" class="img-fluid" alt="">
                   {% endif %}

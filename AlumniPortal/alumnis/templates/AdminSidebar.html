@@ -5,41 +5,59 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="">
+        <a class="nav-link collapsed" href="../AdminView">
           <i class="bi bi-grid"></i>
           <span>Home</span>
         </a>
       </li><!-- End Dashboard Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav2" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-person-fill"></i><span>Alumni</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="../adminAlumniList">
+              <i class="bi bi-circle"></i><span>Alumni List</span>
+            </a>
+          </li>
+          <li>
+            <a href="../alumniApproval">
+              <i class="bi bi-circle"></i><span>Alumni Approval</span>
+            </a>
+          </li>
+          <li>
+        </ul>
+      </li><!-- End Components Nav -->
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Events</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="">
-              <i class="bi bi-circle"></i><span>Schedule an Event</span>
+            <a href="../addEvent">
+              <i class="bi bi-circle"></i><span>Add Events</span>
             </a>
           </li>
           <li>
-            <a href="">
+            <a href="../upcomingEventsFaculty">
               <i class="bi bi-circle"></i><span>Upcoming Events</span>
             </a>
           </li>
           <li>
-            <a href="">
+            <a href="../completedEventsFaculty">
               <i class="bi bi-circle"></i><span>Completed Events</span>
             </a>
           </li>
         </ul>
       </li><!-- End Components Nav -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="">
-          <i class="bi bi-person-fill"></i>
-          <span>Alumnis</span>
+        <a class="nav-link collapsed" href="../facultyGallery">
+          <i class="bi bi-card-image"></i>
+          <span>Gallery</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="../alumniSignOut">
+        <a class="nav-link collapsed" data-bs-toggle="modal" data-bs-target="#signout">
           <i class="bi bi-box-arrow-right"></i>
           <span>Sign Out</span>
         </a>
@@ -47,3 +65,21 @@
     </ul>
 
   </aside><!-- End Sidebar-->
+
+  <div class="modal fade" id="signout" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">SignOut</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <center><h4>Are you sure you want to SignOut?</h4></center>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger"><a style="color:white;" href="../FacultySignOut">Confirm</a></button>
+        </div>
+      </div>
+    </div>
+  </div>

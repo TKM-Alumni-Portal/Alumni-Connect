@@ -28,7 +28,6 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'assets2/css/style.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: ALUMNI-CONNECT - v2.4.1
@@ -39,31 +38,55 @@
 </head>
 
 <body>
-  {% if myFaculty.0.access %}
-    {% include 'AdminHeader.html' %}
-    {% include 'AdminSidebar.html' %}
-  {% else %}
-    {% include 'FacultyHeader.html' %}
-    {% include 'FacultySidebar.html' %}
-  {% endif %}
+  {% include 'AdminHeader.html' %}
+  {% include 'AdminSidebar.html' %}
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Upcoming Events</h1>
+      <h1>Alumni List</h1>
       
     </div><!-- End Page Title -->
-    <section id="services" class="services">
-      <div class="container">
-        <div class="row">
-          {% for i in events %}
-          <div style="margin-top:20px;" class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
-            <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
-              <div class="icon"><i class="bi bi-calendar-date"></i></div>
-              <h4 class="title"><a href="">On {{ i.1 }}</a></h4>
-              <p class="description">{{ i.0 }}</p>
-            </div>
+    <section class="">
+      <div class="row">
+        <div class="col-12">
+          <div class="card-body">
+            <h5 class="card-title">Permissions</h5>
+
+            <table class="table table-borderless datatable">
+              <thead>
+                <tr>
+                  <th scope="col">Picture</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email Id</th>
+                  <th scope="col">Profile</th>
+                  <th scope="col">Permission</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in ouralumnis %}
+                {% if i.3 %}
+
+                {% else %}
+                <tr>
+                  <td style="text-align:center;">
+                  {% if i.4 %}
+                  <img height="60" src="{% static 'media/' %}{{ i.4 }}" alt="Profile" class="rounded-circle">
+                  {% else %}
+                  <img height="60" src="{% static 'assets2/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
+                  {% endif %}
+                  </td>
+                  <td>{{ i.0|upper }} {{ i.1|upper }}</td>
+                  <td>{{ i.2 }}</td>
+                    <td><span class="badge bg-success"><a style="color:white;" href="../viewAlumni/{{ i.2 }}">View Profile</a> </span></td>
+                    <td><span class="badge bg-primary"> <a style="color:white;" href="../approveUser/{{ i.2 }}">Approve</a> </span></td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
           </div>
-        {% endfor %}
+        </div>
       </div>
     </section>
 </main>

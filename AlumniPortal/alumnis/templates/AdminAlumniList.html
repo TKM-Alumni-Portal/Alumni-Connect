@@ -28,6 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'assets2/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: ALUMNI-CONNECT - v2.4.1
@@ -48,67 +49,37 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Add Event</h1>
+      <h1>Alumni List</h1>
+      
     </div><!-- End Page Title -->
-    <div class="row">
-        <div class="col-xl-9">
-            <div class="card">
-                <div class="card-body pt-3">
-                    <h4>Event Details</h4><br>
-                    <form method="POST" action="../addEventDetails/">
-                        {% csrf_token %}
-                        <div class="row mb-3">
-                          <label for="ename" class="col-md-4 col-lg-3 col-form-label">Event Name</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="ename" type="text" class="form-control">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="date" class="col-md-4 col-lg-3 col-form-label">Date</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="date" type="date" class="form-control">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="time" class="col-md-4 col-lg-3 col-form-label">Time</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="time" type="time" class="form-control">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="description" class="col-md-4 col-lg-3 col-form-label">Description</label>
-                          <div class="col-md-8 col-lg-9">
-                            <textarea name="description" rows="5" class="form-control"></textarea>
-                          </div>
-                        </div>
-                        
-                        <div class="row mb-3">
-                            <label for="mode" class="col-md-4 col-lg-3 col-form-label">Mode</label>
-                            <div class="col-md-8 col-lg-9">
-                              <select class="form-control" name="mode">
-                                <option>-----Choose Mode-----</option>
-                                <option value="0">Offline</option>
-                                <option value="1">Online</option>
-                              </select>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="eventPic" class="col-md-4 col-lg-3 col-form-label">Event Picture</label>
-                            <div class="col-md-8 col-lg-9">
-                                <input type="file" class="form-control" name="eventPic" accept=".jpeg, .jpg, .png">
-                            </div>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
+    <section id="team" class="team section-bg">
+      <div class="container">
+
+        <div class="row">
+          {% for i in alumniList %}
+            <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+              <div class="member" data-aos="fade-up" data-aos-delay="400">
+                <div class="member-img">
+                  {% if i.4 %}
+                  <img src="{% static 'media/' %}{{ i.4 }}" class="img-fluid" alt="">
+                  {% else %}
+                  <img src="{% static 'assets2/img/profile-img.jpg' %}" class="img-fluid" alt="">
+                  {% endif %}
+                  <div class="social">
+                    <a href="{{ i.3 }}" target="_blank"><i class="bi bi-linkedin"></i></a>
+                  </div>
                 </div>
+                <div class="member-info">
+                  <h4>{{ i.1 }} {{ i.2 }}</h4>
+                  <span><a href="../viewAlumni/{{ i.0 }}">View Profile</a></span>
+                </div>
+              </div>
             </div>
+          {% endfor %}
         </div>
-    </div>    
+
+      </div>
+    </section>
 </main>
 
   <!-- ======= Footer ======= -->

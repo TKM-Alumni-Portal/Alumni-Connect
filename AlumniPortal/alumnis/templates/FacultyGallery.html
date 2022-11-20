@@ -28,6 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'assets2/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: ALUMNI-CONNECT - v2.4.1
@@ -48,67 +49,28 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Add Event</h1>
+      <h1>Gallery</h1>
+      
     </div><!-- End Page Title -->
-    <div class="row">
-        <div class="col-xl-9">
+    <section id="services" class="services">
+      <div class="container">
+        <div class="row">
+          {% for i in events %}
+          <div class="col-lg-3">
+
+            <!-- Card with an image on top -->
             <div class="card">
-                <div class="card-body pt-3">
-                    <h4>Event Details</h4><br>
-                    <form method="POST" action="../addEventDetails/">
-                        {% csrf_token %}
-                        <div class="row mb-3">
-                          <label for="ename" class="col-md-4 col-lg-3 col-form-label">Event Name</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="ename" type="text" class="form-control">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="date" class="col-md-4 col-lg-3 col-form-label">Date</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="date" type="date" class="form-control">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="time" class="col-md-4 col-lg-3 col-form-label">Time</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="time" type="time" class="form-control">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="description" class="col-md-4 col-lg-3 col-form-label">Description</label>
-                          <div class="col-md-8 col-lg-9">
-                            <textarea name="description" rows="5" class="form-control"></textarea>
-                          </div>
-                        </div>
-                        
-                        <div class="row mb-3">
-                            <label for="mode" class="col-md-4 col-lg-3 col-form-label">Mode</label>
-                            <div class="col-md-8 col-lg-9">
-                              <select class="form-control" name="mode">
-                                <option>-----Choose Mode-----</option>
-                                <option value="0">Offline</option>
-                                <option value="1">Online</option>
-                              </select>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="eventPic" class="col-md-4 col-lg-3 col-form-label">Event Picture</label>
-                            <div class="col-md-8 col-lg-9">
-                                <input type="file" class="form-control" name="eventPic" accept=".jpeg, .jpg, .png">
-                            </div>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>    
+              <img src="{% static 'assets2/img/card.jpg' %}" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{ i.0 }}</h5>
+                <p class="card-text">{{i.3}}</p>
+              </div>
+            </div><!-- End Card with an image on top -->
+  
+          </div>
+        {% endfor %}
+      </div>
+    </section> <!--End Page Title -->
 </main>
 
   <!-- ======= Footer ======= -->

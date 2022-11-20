@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Profile - ALUMNI-CONNECT</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+    {% load static %}
+  <!-- Favicons -->
+  <link href="{% static 'assets2/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets2/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets2/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/quill/quill.snow.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets2/vendor/simple-datatables/style.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets2/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: ALUMNI-CONNECT - v2.4.1
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+  {% include 'AdminHeader.html' %}
+  {% include 'AdminSidebar.html' %}
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Profile Details</h1>
+      
+    </div><!-- End Page Title -->
+    <section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
+
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+              {% if pic.0.proPic %}
+                <img src="{% static 'media/' %}{{ pic.0.proPic }}"  alt="Profile" class="rounded-circle">
+              {% else %}
+                <img src="{% static 'assets2/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
+              {% endif %}
+              <!--<img src="{% static 'assets2/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">-->
+              <h2>{{ alumni.0.fname }} {{ alumni.0.lname }}</h2>
+              {% if alumni.0.profile %}
+              {% else %}
+              <span class="badge bg-primary"> <a style="color:white;" href="../approveUser/{{ alumni.0.email }}">Approve</a> </span>
+              {% endif %}
+              <div class="social-links mt-2">
+                <a href="{{ details.0.linkedID }}" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xl-8">
+
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+
+                <li class="nav-item">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Preferences</button>
+                </li>
+              </ul>
+              <div class="tab-content pt-2">
+
+                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                  
+                  <h5 class="card-title"></h5>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                    <div class="col-lg-9 col-md-8">{{ alumni.0.fname }} {{ alumni.0.lname }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label ">Branch</div>
+                    <div class="col-lg-9 col-md-8">{{ alumni.0.branch }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label ">Year of Admission</div>
+                    <div class="col-lg-9 col-md-8">{{ alumni.0.yoa }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Industry / Domain</div>
+                    <div class="col-lg-9 col-md-8">{{ details.0.industry }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Job Title</div>
+                    <div class="col-lg-9 col-md-8">{{ details.0.position }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Job Location</div>
+                    <div class="col-lg-9 col-md-8">{{ details.0.location }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Mobile Number</div>
+                    <div class="col-lg-9 col-md-8">{{ alumni.0.mobile }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Email</div>
+                    <div class="col-lg-9 col-md-8">{{ alumni.0.email }}</div>
+                  </div>
+
+                </div>
+                <div class="tab-pane fade pt-3" id="profile-settings">
+                  <div class="row mb-3">
+                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Area(s) Interested in contributing</label>
+                    <div class="col-md-8 col-lg-9">
+                      <div class="form-check">
+                        {% if details.0.gf %}
+                          <input class="form-check-input" type="checkbox" name="gf" checked disabled>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="gf" disabled>
+                        {% endif %}
+                        Guest Faculty
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        {% if details.0.cs %}
+                        <input class="form-check-input" type="checkbox" name="cs" checked disabled>
+                        {% else %}
+                        <input class="form-check-input" type="checkbox" name="cs" disabled>
+                        {% endif %}
+                            Case Studies 
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        {% if details.0.fi %}
+                          <input class="form-check-input" type="checkbox" name="fi" checked disabled>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="fi" disabled>
+                        {% endif %}
+                            Faculty Internship
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        {% if details.0.research %}
+                          <input class="form-check-input" type="checkbox" name="r" checked disabled>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="r" disabled>
+                        {% endif %}
+                          Research
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        {% if details.0.fdp %}
+                          <input class="form-check-input" type="checkbox" name="fdp" checked disabled>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="fdp" disabled>
+                        {% endif %}
+                          Faculty Development Programme (FDP)
+                        </label>
+                      </div> 
+                      <div class="form-check">
+                        {% if details.0.mdp %}
+                          <input class="form-check-input" type="checkbox" name="mdp" checked disabled>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="mdp" disabled>
+                        {% endif %}
+                          Management Development Programme (MDP)
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        {% if details.0.iv %}
+                          <input class="form-check-input" type="checkbox" name="iv" checked disabled>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="iv" disabled>
+                        {% endif %}
+                          Industry Visits/Webinars
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        {% if details.0.buddySys %}
+                          <input class="form-check-input" type="checkbox" name="bs" checked disabled>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="bs" disabled>
+                        {% endif %}
+                          Buddy System (Students Mentoring)
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        {% if details.0.consulting %}
+                          <input class="form-check-input" type="checkbox" name="c" checked disabled>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="c" disabled>
+                        {% endif %}
+                          Consulting
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        {% if details.0.sip %}
+                          <input class="form-check-input" type="checkbox" name="sip" checked disabled>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="sip" disabled>
+                        {% endif %}
+                          Summer Internship Program
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        {% if details.0.placements %}
+                          <input class="form-check-input" type="checkbox" name="gf" checked disabled>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="gf" disabled>
+                        {% endif %}
+                          Placements
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        {% if details.0.ic %}
+                          <input class="form-check-input" type="checkbox" name="ic" checked disabled>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="ic" disabled>
+                        {% endif %}
+                          Incubation Center
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        {% if details.0.lps %}
+                          <input class="form-check-input" type="checkbox" name="lps" checked disabled>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="lps" disabled>
+                        {% endif %}
+                          Live Projects for Students
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        {% if details.0.csr %}
+                          <input class="form-check-input" type="checkbox" name="csr" checked disabled>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="csr" disabled>
+                        {% endif %}
+                          CSR / Social Development Programme
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        {% if details.0.ssp %}
+                          <input class="form-check-input" type="checkbox" name="ssp" checked disabled>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="ssp" disabled>
+                        {% endif %}
+                          Student Scholarships Programme
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        {% if details.0.se %}
+                          <input class="form-check-input" type="checkbox" name="se" checked disabled>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="se" disabled>
+                        {% endif %}
+                          Social Eminence (Social Media Connect)
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+
+              </div><!-- End Bordered Tabs -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+</main>
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>ALUMNI-CONNECT</span></strong>. All Rights Reserved
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets2/vendor/apexcharts/apexcharts.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/chart.js/chart.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/echarts/echarts.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/quill/quill.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/simple-datatables/simple-datatables.js' %}"></script>
+  <script src="{% static 'assets2/vendor/tinymce/tinymce.min.js' %}"></script>
+  <script src="{% static 'assets2/vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets2/js/main.js' %}"></script>
+
+</body>
+
+</html>

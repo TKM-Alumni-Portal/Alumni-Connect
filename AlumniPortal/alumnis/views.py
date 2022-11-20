@@ -1,6 +1,6 @@
 import hashlib
 import random
-
+from datetime import date
 from django.conf import settings
 from django.core.mail import send_mail
 from django.db.models import Q
@@ -104,12 +104,33 @@ def updaterecord(request, id):
   return HttpResponseRedirect(reverse('index'))
 
 def superAdmin(request):
-  mydata = Faculty.objects.all()
-  template = loader.get_template('superAdminView.html')
-  context = {
-    'faculty': mydata,
-  }
-  return HttpResponse(template.render(context, request))
+  if 'email' in request.session:
+    mydata = Faculty.objects.all()
+    template = loader.get_template('superAdminView.html')
+    context = {
+      'faculty': mydata,
+    }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+
+def sAdminSignOut(request):
+  if 'email' in request.session:
+    request.session.flush()
+  return redirect(sAdminSignIn)
+
+def sAdminSignIn(request):
+  template = loader.get_template('sAdminSignIn.html')
+  return HttpResponse(template.render({}, request))
+
+def authSAdmin(request):
+  x = request.POST['penNo']
+  y = request.POST['psw']
+  if x == "tkmce.alumniportal@gmail.com" and y == "Super@123":
+    request.session['email'] = x
+    return redirect('superAdmin')
+  else:
+    return HttpResponse("<script>alert('Invalid Credentials!');window.history.back();</script>") 
 
 def alumniSignIn(request):
   template = loader.get_template('alumniSignIn.html')
@@ -132,7 +153,7 @@ def alumniView(request):
   }
     return HttpResponse(template.render(context, request))
   else:
-    return redirect('alumniSignIn')
+    return redirect('index')
 
 def authAlumni(request):
   x = request.POST['mail']
@@ -375,13 +396,13 @@ def alumniList(request):
     for i in alumniList:
       cp=AlumniProfile.objects.filter(email=i.email).count()
       ci=AlumniProPic.objects.filter(email=i.email).count()
-      if cp and ci:
+      if int(cp)>0 and int(ci)>0:
         x=AlumniProfile.objects.get(email=i.email)
         y=AlumniProPic.objects.get(email=i.email)
         alumniD.append([i.email,i.fname,i.lname,x.position,x.linkedID,y.proPic])
-      elif cp:
+      elif int(cp)>0 and int(ci)==0:
         x=AlumniProfile.objects.get(email=i.email)
-        alumniD.append([i.email,i.fname,i.lname,x.position,x.linkedID,""])
+        alumniD.append([i.email,i.fname,i.lname,x.position,x.linkedID,0])
     template = loader.get_template('alumniList.html')
     context = {
     'myalumnis': user,'details':alumniDetails,'pic' : pic, 'alumniList': alumniD,
@@ -430,15 +451,21 @@ def deleteFacultyProPic(request, email):
   return HttpResponseRedirect(reverse('FacultyProfile'))
 def addEventDetails(request):
   a=request.session.get('email')
+  d = Faculty.objects.get(email=a)
   ename = request.POST['ename']
   date = request.POST['date']
   time = request.POST['time']
   description = request.POST['description']
   mode = request.POST['mode']
   eventPic = request.POST['eventPic']
-  ae=Events(name=ename,date=date,time=time,description=description,mode=mode,pic=eventPic)
-  ae.save()
-  return HttpResponseRedirect(reverse('FacultyView'))
+  if d.access==0:
+    ae=Events(name=ename,date=date,time=time,description=description,mode=mode,pic=eventPic)
+    ae.save()
+    return HttpResponseRedirect(reverse('FacultyView'))
+  else:
+    ae=Events(name=ename,date=date,time=time,description=description,mode=mode,pic=eventPic,status=1)
+    ae.save()
+    return HttpResponseRedirect(reverse('AdminView'))
 def upcomingFacultyEvents(request):
   if 'email' in request.session:
     a=request.session.get('email')
@@ -455,6 +482,225 @@ def completedFacultyEvents(request):
     a=request.session.get('email')
     user = Faculty.objects.filter(email=a).values()
     template = loader.get_template('FacultyCompletedEvents.html')
+    context = {
+    'myFaculty': user,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+
+def feedback(request):
+  name = request.POST['name']
+  email = request.POST['email']
+  sub = request.POST['subject']
+  message = request.POST['message']
+  f = Feedbacks(name=name, email=email, subject=sub, message=message)
+  f.save()
+  return HttpResponse("<script>alert('Your message has been sent. Thank you!');window.location.href='../alumnis';</script>")
+
+def changePassword(request):
+  cpass = request.POST['currentPassword']
+  npass = request.POST['newpassword']
+  rpass = request.POST['renewpassword']
+  a=request.session.get('email')
+  user = Alumnis.objects.get(email=a)
+  if user.password == cpass:
+    if npass!=rpass:
+      return HttpResponse("<script>alert('New password and reentered password doesnot match!');window.history.back();</script>")
+    else:
+      user.password=npass
+      user.save()
+      return HttpResponse("<script>alert('Password Changed Successfully!');window.location.href='../alumniProfile';</script>")
+  else:
+      return HttpResponse("<script>alert('Incorrect Current Password!');window.history.back();</script>")
+
+def adminAlumniList(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    alumniList =Alumnis.objects.all()
+    alumniD=[]
+    for i in alumniList:
+      cp=AlumniProfile.objects.filter(email=i.email).count()
+      ci=AlumniProPic.objects.filter(email=i.email).count()
+      if int(cp)>0 and int(ci)>0:
+        x=AlumniProfile.objects.get(email=i.email)
+        y=AlumniProPic.objects.get(email=i.email)
+        alumniD.append([i.email,i.fname,i.lname,x.linkedID,y.proPic])
+      elif int(cp)>0 and int(ci)==0:
+        x=AlumniProfile.objects.get(email=i.email)
+        alumniD.append([i.email,i.fname,i.lname,x.linkedID,0])
+    template = loader.get_template('AdminAlumniList.html')
+    context = {
+    'myFaculty': user,'alumniList': alumniD,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+
+def alumniApproval(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    ouralumnis = Alumnis.objects.all().order_by('-email')
+    alumniD=[]
+    for i in ouralumnis:
+      cp=AlumniProfile.objects.filter(email=i.email).count()
+      ci=AlumniProPic.objects.filter(email=i.email).count()
+      if int(cp)>0 and int(ci)>0:
+        y=AlumniProPic.objects.get(email=i.email)
+        alumniD.append([i.fname,i.lname,i.email,i.profile,y.proPic])
+      elif int(cp)>0 and int(ci)==0:
+        alumniD.append([i.fname,i.lname,i.email,i.profile,0])
+
+    template = loader.get_template('ApproveAlumni.html')
+    context = {
+    'myFaculty': user,'ouralumnis': alumniD,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+
+def approveUser(request,email):
+  al = Alumnis.objects.get(email=email)
+  al.profile=1
+  al.save()
+  return HttpResponseRedirect('../alumniApproval')
+
+def viewAlumni(request,email):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    pic = AlumniProPic.objects.filter(email=email).values()
+    al = Alumnis.objects.filter(email=email).values()
+    alumniDetails = AlumniProfile.objects.filter(email=email).values()
+    template = loader.get_template('AdminAlumniPro.html')
+    context = {
+    'myFaculty': user,'pic' : pic,'details':alumniDetails,'alumni':al,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+
+def changeFacultyPassword(request):
+  cpass = request.POST['currentPassword']
+  npass = request.POST['newpassword']
+  rpass = request.POST['renewpassword']
+  a=request.session.get('email')
+  user = Faculty.objects.get(email=a)
+  if user.password == cpass:
+    if npass!=rpass:
+      return HttpResponse("<script>alert('New password and reentered password doesnot match!');window.history.back();</script>")
+    else:
+      user.password=npass
+      user.save()
+      return HttpResponse("<script>alert('Password Changed Successfully!');window.location.href='/FacultyProfile';</script>")
+  else:
+      return HttpResponse("<script>alert('Incorrect Current Password!');window.history.back();</script>")
+
+def upcomingEventsFaculty(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    events = Events.objects.all()
+    event=[]
+    for i in events:
+      if i.status==1:
+        if i.date > date.today():
+          if i.pic:
+            event.append([i.name,i.date,i.time,i.description,i.mode,i.pic])
+          else:
+            event.append([i.name,i.date,i.time,i.description,i.mode,0])
+    template = loader.get_template('FacultyUpComingEvents.html')
+    context = {
+    'myFaculty': user,'events': event,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+def completedEventsFaculty(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    events = Events.objects.all()
+    event=[]
+    for i in events:
+      if i.status==1:
+        if i.date < date.today():
+          if i.pic:
+            event.append([i.name,i.date,i.time,i.description,i.mode,i.pic])
+          else:
+            event.append([i.name,i.date,i.time,i.description,i.mode,0])
+    template = loader.get_template('FacultyCompletedEvents.html')
+    context = {
+    'myFaculty': user,'events': event,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+
+def upcomingEventsAlumni(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    events = Events.objects.all()
+    event=[]
+    for i in events:
+      if i.status==1:
+        if i.date > date.today():
+          if i.pic:
+            event.append([i.name,i.date,i.time,i.description,i.mode,i.pic])
+          else:
+            event.append([i.name,i.date,i.time,i.description,i.mode,0])
+    template = loader.get_template('FacultyUpComingEvents.html')
+    context = {
+    'myFaculty': user,'events': event,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+def completedEventsAlumni(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    pic = AlumniProPic.objects.filter(email=a).values()
+    user = Alumnis.objects.filter(email=a).values()
+    alumniDetails = AlumniProfile.objects.filter(email=a).values()
+    events = Events.objects.all()
+    event=[]
+    for i in events:
+      if i.status==1:
+        if i.date < date.today():
+          if i.pic:
+            event.append([i.name,i.date,i.time,i.description,i.mode,i.pic])
+          else:
+            event.append([i.name,i.date,i.time,i.description,i.mode,0])
+    template = loader.get_template('AlumniCompletedEvents.html')
+    context = {
+    'myalumnis': user,'details':alumniDetails,'pic' : pic,'events': event,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+
+def allEventsFaculty(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    events = Events.objects.filter(status=1)
+    template = loader.get_template('FacultyGallery.html')
+    context = {
+    'myFaculty': user,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+
+def facultyGallery(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    gallery = Gallery.objects.filter(status=1).order_by('-id')
+    template = loader.get_template('FacultyGallery.html')
     context = {
     'myFaculty': user,
   }

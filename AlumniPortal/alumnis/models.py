@@ -61,3 +61,17 @@ class Events(models.Model):
   description = models.CharField(max_length=1000, default="")
   mode = models.IntegerField(default=0)
   pic = models.ImageField(upload_to='events/', default="")
+  status = models.IntegerField(default=0)
+
+class Feedbacks(models.Model):
+  name = models.CharField(max_length=255)
+  email = models.CharField(max_length=255)
+  subject = models.CharField(max_length=500)
+  message = models.CharField(max_length=1500)
+  status = models.IntegerField(default=0)
+
+class Gallery(models.Model):
+  eventName = models.CharField(max_length=300)
+  pic = models.ImageField(upload_to='gallery/')
+  email = models.CharField(max_length=300)
+  status = models.IntegerField(default=0)

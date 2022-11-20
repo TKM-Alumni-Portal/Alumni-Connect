@@ -71,14 +71,14 @@ label{
           <!--<div class="col-lg-6" id="pslocation">
           </div>-->
       <div style="margin-top: 7%;" class="container col-lg-3">
-        <h2>Faculty Login</h2>
-        <form action="FacultySignIn/authFaculty" name="signin" method="post">
+        <h2>SuperAdmin Login</h2>
+        <form action="sAdminSignIn/authSAdmin" name="signin" method="post">
             {% csrf_token %}
-            <label>Pen Number</label><br>
-            <input name="penNo" type="text" pattern="[0-9]{8}" title="Enter a valid Pen Number" value="{{ myFaculty.penNumber }}" required>
+            <label>Email Id</label><br>
+            <input name="penNo" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Enter a valid Pen Number" value="{{ myFaculty.penNumber }}" required>
             <br>
             <label>Password</label><br>
-            <input name="psw" type="password" pattern="{8}" title=" Enter a valid Password" value="{{ myFaculty.password }}" required>
+            <input name="psw" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must contain minimum 8 characters, 1 Uppercase, 1 Lowercase, 1 Special Character." value="{{ myFaculty.password }}" required>
             <br>
             <input type="submit" value="Submit">
             </form>
