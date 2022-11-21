@@ -637,7 +637,12 @@ def alumniApproval(request):
 def approveUser(request,email):
   al = Alumnis.objects.get(email=email)
   al.profile=1
+  subject="Your Account got Approved!"
   al.save()
+  message = f'Hi '+ al.fname +' '+ al.lname +', Your Account got approved, Login now to see the features and service provided by ALUMNI-CONNECT'
+  email_from = settings.EMAIL_HOST_USER
+  recipient_list = [email, ]
+  send_mail( subject, message, email_from, recipient_list )
   return HttpResponseRedirect('../alumniApproval')
 
 def viewAlumni(request,email):
