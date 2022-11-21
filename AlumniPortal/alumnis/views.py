@@ -41,6 +41,8 @@ def index(request):
   for i in events:
     if i.status==1:
       if i.date < date.today():
+        if len(i.description)>100:
+          i.description=i.description[0:100]+"..."
         if i.pic:
           event1.append([i.name,i.date,i.time,i.description,i.mode,i.pic])
         else:
