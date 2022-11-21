@@ -15,9 +15,39 @@ from .models import *
 
 def index(request):
   ouralumnis = Alumnis.objects.all().values()
+  alumniList =Alumnis.objects.filter(profile=1).order_by('email')[:4]
+  alumniD=[]
+  for i in alumniList:
+    cp=AlumniProfile.objects.filter(email=i.email).count()
+    ci=AlumniProPic.objects.filter(email=i.email).count()
+    if int(cp)>0 and int(ci)>0:
+      x=AlumniProfile.objects.get(email=i.email)
+      y=AlumniProPic.objects.get(email=i.email)
+      alumniD.append([i.email,i.fname,i.lname,x.linkedID,x.position,y.proPic,x.industry])
+    elif int(cp)>0 and int(ci)==0:
+      x=AlumniProfile.objects.get(email=i.email)
+      alumniD.append([i.email,i.fname,i.lname,x.linkedID,x.position,0,x.industry])
+  gallery = Gallery.objects.filter(status=1).values()
+  events = Events.objects.all()
+  event=[]
+  for i in events:
+    if i.status==1:
+      if i.date > date.today():
+        if i.pic:
+          event.append([i.name,i.date,i.time,i.description,i.mode,i.pic])
+        else:
+          event.append([i.name,i.date,i.time,i.description,i.mode,0])
+  event1=[]
+  for i in events:
+    if i.status==1:
+      if i.date < date.today():
+        if i.pic:
+          event1.append([i.name,i.date,i.time,i.description,i.mode,i.pic])
+        else:
+          event1.append([i.name,i.date,i.time,i.description,i.mode,0])
   template = loader.get_template('index.html')
   context = {
-    'ouralumnis': ouralumnis,
+    'ouralumnis': ouralumnis,'alumniList': alumniD,'g':gallery,'events': event,'events1': event1,
   }
   return HttpResponse(template.render(context, request))
 
@@ -147,9 +177,21 @@ def alumniView(request):
     pic = AlumniProPic.objects.filter(email=a).values()
     user = Alumnis.objects.filter(email=a).values()
     alumniDetails = AlumniProfile.objects.filter(email=a).values()
+    alumniList =Alumnis.objects.filter(~Q(email=a),profile=1).order_by('email')[:4]
+    alumniD=[]
+    for i in alumniList:
+      cp=AlumniProfile.objects.filter(email=i.email).count()
+      ci=AlumniProPic.objects.filter(email=i.email).count()
+      if int(cp)>0 and int(ci)>0:
+        x=AlumniProfile.objects.get(email=i.email)
+        y=AlumniProPic.objects.get(email=i.email)
+        alumniD.append([i.email,i.fname,i.lname,x.linkedID,y.proPic])
+      elif int(cp)>0 and int(ci)==0:
+        x=AlumniProfile.objects.get(email=i.email)
+        alumniD.append([i.email,i.fname,i.lname,x.linkedID,0])
     template = loader.get_template('alumniView.html')
     context = {
-    'myalumnis': user,'details':alumniDetails,'pic' : pic,
+    'myalumnis': user,'details':alumniDetails,'pic' : pic,'alumniList': alumniD,
   }
     return HttpResponse(template.render(context, request))
   else:
@@ -256,9 +298,21 @@ def FacultyView(request):
   if 'email' in request.session:
     f=request.session.get('email')
     user = Faculty.objects.filter(email=f).values()
+    alumniList =Alumnis.objects.filter(profile=1).order_by('email')[:4]
+    alumniD=[]
+    for i in alumniList:
+      cp=AlumniProfile.objects.filter(email=i.email).count()
+      ci=AlumniProPic.objects.filter(email=i.email).count()
+      if int(cp)>0 and int(ci)>0:
+        x=AlumniProfile.objects.get(email=i.email)
+        y=AlumniProPic.objects.get(email=i.email)
+        alumniD.append([i.email,i.fname,i.lname,x.linkedID,y.proPic])
+      elif int(cp)>0 and int(ci)==0:
+        x=AlumniProfile.objects.get(email=i.email)
+        alumniD.append([i.email,i.fname,i.lname,x.linkedID,0])
     template = loader.get_template('FacultyView.html')
     context = {
-    'myFaculty': user,
+    'myFaculty': user, 'alumniList': alumniD,
   }
     return HttpResponse(template.render(context, request))
   else:
@@ -268,7 +322,7 @@ def AdminView(request):
   if 'email' in request.session:
     f=request.session.get('email')
     user = Faculty.objects.filter(email=f).values()
-    alumniList =Alumnis.objects.filter(profile=1)
+    alumniList =Alumnis.objects.filter(profile=1).order_by('email')[:4]
     alumniD=[]
     for i in alumniList:
       cp=AlumniProfile.objects.filter(email=i.email).count()
@@ -534,7 +588,7 @@ def adminAlumniList(request):
   if 'email' in request.session:
     a=request.session.get('email')
     user = Faculty.objects.filter(email=a).values()
-    alumniList =Alumnis.objects.filter(profile=1)
+    alumniList =reversed(Alumnis.objects.filter(profile=1))
     alumniD=[]
     for i in alumniList:
       cp=AlumniProfile.objects.filter(email=i.email).count()
@@ -828,5 +882,90 @@ def alumniGallery(request):
     'myalumnis': user,'details':alumniDetails,'pic' : pic, 'events': events,
   }
     return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+def viewCategoryAdmin(request,date):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    event = Events.objects.filter(date=date).values()
+    ev = Events.objects.get(date=date)
+    gallery = Gallery.objects.filter(eventName=ev.name,status=1).values()
+    template = loader.get_template('viewCategoryAdmin.html')
+    context = {
+    'myFaculty': user,'event':event,'g':gallery
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+def addImageFacultyPage(request,date):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    event = Events.objects.filter(date=date).values()
+    template = loader.get_template('addImageFaculty.html')
+    context = {
+    'myFaculty': user,'event':event,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+
+def addEventImageFac(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    date = request.POST['date']
+    pic = request.FILES['pic']
+    ev=Events.objects.get(date=date)
+    up = Gallery(eventName=ev.name,email=a,pic=pic,status=1)
+    up.save()
+    return HttpResponseRedirect('../facultyGallery')
+  else:
+    return redirect('index')
+def deleteImage(request,id):
+  i=Gallery.objects.get(id=id)
+  i.status=0
+  i.save()
+  return HttpResponseRedirect('../facultyGallery')
+def viewCategoryAlumni(request,date):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    pic = AlumniProPic.objects.filter(email=a).values()
+    user = Alumnis.objects.filter(email=a).values()
+    alumniDetails = AlumniProfile.objects.filter(email=a).values()
+    event = Events.objects.filter(date=date).values()
+    ev = Events.objects.get(date=date)
+    gallery = Gallery.objects.filter(eventName=ev.name,status=1).values()
+    template = loader.get_template('viewCategoryAlumni.html')
+    context = {
+    'myalumnis': user,'details':alumniDetails,'pic' : pic,'event':event,'g':gallery
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+def addImageAlumniPage(request,date):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    pic = AlumniProPic.objects.filter(email=a).values()
+    user = Alumnis.objects.filter(email=a).values()
+    alumniDetails = AlumniProfile.objects.filter(email=a).values()
+    event = Events.objects.filter(date=date).values()
+    template = loader.get_template('addImageAlumni.html')
+    context = {
+    'myalumnis': user,'details':alumniDetails,'pic' : pic,'event':event,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+
+def addEventImageAlumni(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    date = request.POST['date']
+    pic = request.FILES['pic']
+    ev=Events.objects.get(date=date)
+    up = Gallery(eventName=ev.name,email=a,pic=pic,status=1)
+    up.save()
+    return HttpResponseRedirect('../alumniGallery')
   else:
     return redirect('index')

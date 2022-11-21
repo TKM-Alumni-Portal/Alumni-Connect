@@ -64,13 +64,8 @@
                 <h4>{{ i.name }}</h4>
                 <p>{{ i.date }} At {{ i.time }}</p>
                 <div class="portfolio-links">
-                {% if i.pic %}
-                <a href="{% static 'media/' %}{{ i.pic }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Add Image"><i class="bx bx-plus"></i></a>
-                {% else %}
-                <a href="{% static 'assets2/img/events/defaultevent.png' %}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Add Image"><i class="bx bx-plus"></i></a>
-                {% endif %}
-                  
-                  <a href="../viewCategory" title="View Images"><i class="bi bi-eye-fill"></i></a>
+                  <a href="../addImageAlumniPage/{{ i.date|upper }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Add Image"><i class="bx bx-plus"></i></a>
+                  <a href="../viewCategoryAlumni/{{ i.date|upper }}" title="View Images"><i class="bi bi-eye-fill"></i></a>
                 </div>
               </div>
             </div>

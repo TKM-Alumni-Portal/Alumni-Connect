@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,10 +5,10 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>SuperAdmin Login</title>
+  <title>Profile - ALUMNI-CONNECT</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-{% load static %}
+    {% load static %}
   <!-- Favicons -->
   <link href="{% static 'assets2/img/favicon.png' %}" rel="icon">
   <link href="{% static 'assets2/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
@@ -29,9 +28,10 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'assets2/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
 
   <!-- =======================================================
-  * Template Name: NiceAdmin - v2.4.1
+  * Template Name: ALUMNI-CONNECT - v2.4.1
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
@@ -39,66 +39,74 @@
 </head>
 
 <body>
+  {% include 'alumniHeader.html' %}
+  {% include 'alumniSidebar.html' %}
+  <main id="main" class="main">
 
-  <main>
-    <div class="container">
-
-      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-
-              <div class="d-flex justify-content-center py-4" style="margin-top:-50px;">
-                <a href="../alumnis" class="logo d-flex align-items-center w-auto">
-                  <img src="{% static 'assets2/img/logo.png' %}" alt="">
-                  <span class="d-none d-lg-block">ALUMNI-CONNECT</span>
-                </a>
-              </div><!-- End Logo -->
-
-              <div class="card mb-3">
-
-                <div class="card-body">
-
-                  <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">SuperAdmin SignIn</h5>
-                    <p class="text-center small">Enter your email id & password to login</p>
-                  </div>
-                  <form class="row g-3 needs-validation" novalidate action="sAdminSignIn/authSAdmin" name="signin" method="post">
-                    {% csrf_token %}
-
-                    <div class="col-12">
-                      <label for="yourUsername" class="form-label">Email Id</label>
-                      <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input class="form-control" name="penNo" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Enter a valid Pen Number" value="{{ myFaculty.penNumber }}" required>
-            
-                        
-                        <div class="invalid-feedback">Please enter your email id.</div>
-                      </div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
-                      <input class="form-control" name="psw" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must contain minimum 8 characters, 1 Uppercase, 1 Lowercase, 1 Special Character." value="{{ myFaculty.password }}" required>
-            
-                      <div class="invalid-feedback">Please enter your password!</div>
-                    </div>
-                    <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Login</button>
-                    </div>
-                  </form>
-
-                </div>
+    <div class="pagetitle">
+      <h1>Gallery</h1>
+    </div><!-- End Page Title -->
+    <!-- ======= Portfolio Section ======= -->
+    <section id="portfolio" class="portfolio" style="margin-top:-50px;">
+      <div class="container">
+        <h5 class="card-title">Event Details</h5>
+      </div>
+      {% for i in event %}
+        <!-- Card with an image on left -->
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="{% static 'media/' %}{{ i.pic }}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{ i.name }}</h5>
+                 <b>Conducted on {{ i.date }}</b><br><br>
+                <p class="card-text">{{ i.description }}</p>
               </div>
-
             </div>
           </div>
+        </div><!-- End Card with an image on left -->
+      {% endfor %}
+    </section>
+    <section id="portfolio" class="portfolio" style="margin-top:-50px;">
+      <div class="container">
+        
+        <h5 class="card-title">Events Images</h5>
+        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="400">
+          {% for i in g %}
+          
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <div class="portfolio-wrap">
+              {% if i.pic %}
+                <img src="{% static 'media/' %}{{ i.pic }}" class="img-fluid" alt="">
+              {% else %}
+              <img src="{% static 'assets2/img/events/defaultevent.png' %}" class="img-fluid" alt="">
+              {% endif %}
+              <div class="portfolio-info">
+                <div class="portfolio-links">
+                {% if i.pic %}
+                <a href="{% static 'media/' %}{{ i.pic }}" data-gallery="portfolioGallery"  target="_blank" class="portfolio-lightbox" title="View Image"><i class="bi bi-eye-fill"></i></a>
+                {% else %}
+                <a href="{% static 'assets2/img/events/defaultevent.png' %}" target="_blank" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Add Image"><i class="bi bi-eye-fill"></i></a>
+                {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
         </div>
 
-      </section>
+      </div>
+    </section>
+</main>
 
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>ALUMNI-CONNECT</span></strong>. All Rights Reserved
     </div>
-  </main><!-- End #main -->
+  </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

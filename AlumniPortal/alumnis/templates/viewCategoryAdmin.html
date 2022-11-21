@@ -39,40 +39,72 @@
 </head>
 
 <body>
-  {% include 'AdminHeader.html' %}
-  {% include 'AdminSidebar.html' %}
+  {% if myFaculty.0.access %}
+    {% include 'AdminHeader.html' %}
+    {% include 'AdminSidebar.html' %}
+  {% else %}
+    {% include 'FacultyHeader.html' %}
+    {% include 'FacultySidebar.html' %}
+  {% endif %}
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Admin Dashboard</h1>
+      <h1>Gallery</h1>
     </div><!-- End Page Title -->
-    <section class="team section-bg" style="margin-top:-50px;">
+    <!-- ======= Portfolio Section ======= -->
+    <section id="portfolio" class="portfolio" style="margin-top:-50px;">
       <div class="container">
-        <h5 class="card-title">Alumni List</h5>
-        <div class="row">
-          {% for i in alumniList %}
-            <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-              <div class="member" data-aos="fade-up" data-aos-delay="400">
-                <div class="member-img">
-                  {% if i.4 %}
-                  <img src="{% static 'media/' %}{{ i.4 }}" class="img-fluid" alt="">
-                  {% else %}
-                  <img src="{% static 'assets2/img/profile-img.jpg' %}" class="img-fluid" alt="">
-                  {% endif %}
-                  <div class="social">
-                    <a href="{{ i.3 }}" target="_blank"><i class="bi bi-linkedin"></i></a>
-                  </div>
-                </div>
-                <div class="member-info">
-                  <h4>{{ i.1 }} {{ i.2 }}</h4>
-                  <span><a href="../viewAlumni/{{ i.0 }}">View Profile</a></span>
+        <h5 class="card-title">Event Details</h5>
+      </div>
+      {% for i in event %}
+        <!-- Card with an image on left -->
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="{% static 'media/' %}{{ i.pic }}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{ i.name }}</h5>
+                 <b>Conducted on {{ i.date }}</b><br><br>
+                <p class="card-text">{{ i.description }}</p>
+              </div>
+            </div>
+          </div>
+        </div><!-- End Card with an image on left -->
+      {% endfor %}
+    </section>
+    <section id="portfolio" class="portfolio" style="margin-top:-50px;">
+      <div class="container">
+        
+        <h5 class="card-title">Events Images</h5>
+        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="400">
+          {% for i in g %}
+          
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <div class="portfolio-wrap">
+              {% if i.pic %}
+                <img src="{% static 'media/' %}{{ i.pic }}" class="img-fluid" alt="">
+              {% else %}
+              <img src="{% static 'assets2/img/events/defaultevent.png' %}" class="img-fluid" alt="">
+              {% endif %}
+              <div class="portfolio-info">
+                <div class="portfolio-links">
+                {% if i.pic %}
+                <a href="{% static 'media/' %}{{ i.pic }}" data-gallery="portfolioGallery"  target="_blank" class="portfolio-lightbox" title="View Image"><i class="bi bi-eye-fill"></i></a>
+                {% else %}
+                <a href="{% static 'assets2/img/events/defaultevent.png' %}" target="_blank" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Add Image"><i class="bi bi-eye-fill"></i></a>
+                {% endif %}
+                {% if myFaculty.0.access == 1 %}
+                <a href="../deleteImage/{{ i.id }}" title="Delete Images"><i class="bi bi-trash"></i></a>
+                {% endif %}
                 </div>
               </div>
             </div>
+          </div>
           {% endfor %}
         </div>
-        <center><a style="color:white;" href="../adminAlumniList"><button style="background-color: #4154f1; border:none;border-radius:15px; width:200px;height:40px;color:white;">View All</button></a></center>
-      
+
       </div>
     </section>
 </main>

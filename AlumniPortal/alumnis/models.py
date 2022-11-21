@@ -69,7 +69,7 @@ class Feedbacks(models.Model):
   email = models.CharField(max_length=255)
   subject = models.CharField(max_length=500)
   message = models.CharField(max_length=1500)
-  status = models.IntegerField(default=0)
+  status = models.IntegerField(default=1)
   date = models.DateField(default=date.today())
 
 class Gallery(models.Model):

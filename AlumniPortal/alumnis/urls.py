@@ -65,5 +65,12 @@ urlpatterns = [
     path('deleteEvent/<str:date>', views.deleteEvent, name='deleteEvent'),
     path('viewAlumniPro/<str:email>', views.viewAlumniPro, name="viewAlumniPro"),
     path('alumniGallery/', views.alumniGallery, name="alumniGallery"),
+    path('deleteImage/<int:id>', views.deleteImage, name="deleteImage"),
+    path('viewCategoryAdmin/<str:date>', views.viewCategoryAdmin, name="viewCategoryAdmin"),
+    path('addImageFacultyPage/<str:date>', views.addImageFacultyPage, name="addImageFacultyPage"),
+    path('addEventImageFac/', views.addEventImageFac, name="addEventImageFac"),  # type: ignore
+    path('viewCategoryAlumni/<str:date>', views.viewCategoryAlumni, name="viewCategoryAlumni"),
+    path('addImageAlumniPage/<str:date>', views.addImageAlumniPage, name="addImageAlumniPage"),
+    path('addEventImageAlumni/', views.addEventImageAlumni, name="addEventImageAlumni"),  # type: ignore
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

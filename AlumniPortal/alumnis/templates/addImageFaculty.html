@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,10 +5,10 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>SuperAdmin Login</title>
+  <title>Profile - ALUMNI-CONNECT</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-{% load static %}
+    {% load static %}
   <!-- Favicons -->
   <link href="{% static 'assets2/img/favicon.png' %}" rel="icon">
   <link href="{% static 'assets2/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
@@ -31,7 +30,7 @@
   <link href="{% static 'assets2/css/style.css' %}" rel="stylesheet">
 
   <!-- =======================================================
-  * Template Name: NiceAdmin - v2.4.1
+  * Template Name: ALUMNI-CONNECT - v2.4.1
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
@@ -39,66 +38,52 @@
 </head>
 
 <body>
+  {% if myFaculty.0.access %}
+    {% include 'AdminHeader.html' %}
+    {% include 'AdminSidebar.html' %}
+  {% else %}
+    {% include 'FacultyHeader.html' %}
+    {% include 'FacultySidebar.html' %}
+  {% endif %}
+  <main id="main" class="main">
 
-  <main>
-    <div class="container">
-
-      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-
-              <div class="d-flex justify-content-center py-4" style="margin-top:-50px;">
-                <a href="../alumnis" class="logo d-flex align-items-center w-auto">
-                  <img src="{% static 'assets2/img/logo.png' %}" alt="">
-                  <span class="d-none d-lg-block">ALUMNI-CONNECT</span>
-                </a>
-              </div><!-- End Logo -->
-
-              <div class="card mb-3">
-
-                <div class="card-body">
-
-                  <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">SuperAdmin SignIn</h5>
-                    <p class="text-center small">Enter your email id & password to login</p>
-                  </div>
-                  <form class="row g-3 needs-validation" novalidate action="sAdminSignIn/authSAdmin" name="signin" method="post">
-                    {% csrf_token %}
-
-                    <div class="col-12">
-                      <label for="yourUsername" class="form-label">Email Id</label>
-                      <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input class="form-control" name="penNo" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Enter a valid Pen Number" value="{{ myFaculty.penNumber }}" required>
-            
-                        
-                        <div class="invalid-feedback">Please enter your email id.</div>
-                      </div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
-                      <input class="form-control" name="psw" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must contain minimum 8 characters, 1 Uppercase, 1 Lowercase, 1 Special Character." value="{{ myFaculty.password }}" required>
-            
-                      <div class="invalid-feedback">Please enter your password!</div>
-                    </div>
-                    <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Login</button>
-                    </div>
-                  </form>
-
+    <div class="pagetitle">
+      <h1>Add Image</h1>
+    </div><!-- End Page Title -->
+    <div class="row">
+      <center>
+        <div class="col-xl-9">
+            <div class="card">
+                <div class="card-body pt-3">
+                    <h4>Add Image</h4><br>
+                    <form method="POST" action="../addEventImageFac/" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <label for="eventPic" class="col-md-4 col-lg-3 col-form-label"style="text-align:left">Event Picture</label>
+                            <div class="col-md-8 col-lg-9">
+                              {% for i in event %}
+                                <input type="hidden" name="date" value="{{ i.date|upper }}">
+                              {% endfor %}
+                                <input type="file" class="form-control" name="pic" accept=".jpeg, .jpg, .png" required>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
                 </div>
-              </div>
-
             </div>
-          </div>
         </div>
+      </center>
+    </div>    
+</main>
 
-      </section>
-
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>ALUMNI-CONNECT</span></strong>. All Rights Reserved
     </div>
-  </main><!-- End #main -->
+  </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
