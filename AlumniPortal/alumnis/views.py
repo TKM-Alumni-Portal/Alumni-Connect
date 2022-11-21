@@ -28,7 +28,7 @@ def index(request):
       x=AlumniProfile.objects.get(email=i.email)
       alumniD.append([i.email,i.fname,i.lname,x.linkedID,x.position,0,x.industry])
   gallery = Gallery.objects.filter(status=1).values()
-  events = Events.objects.all()
+  events = Events.objects.filter(status=1)
   event=[]
   for i in events:
     if i.status==1:
@@ -672,7 +672,7 @@ def changeFacultyPassword(request):
     else:
       user.password=npass
       user.save()
-      return HttpResponse("<script>alert('Password Changed Successfully!');window.location.href='/FacultyProfile';</script>")
+      return HttpResponse("<script>alert('Password Changed Successfully!');window.location.href='../alumnis/FacultyProfile';</script>")
   else:
       return HttpResponse("<script>alert('Incorrect Current Password!');window.history.back();</script>")
 
@@ -976,3 +976,69 @@ def addEventImageAlumni(request):
     return HttpResponseRedirect('../alumniGallery')
   else:
     return redirect('index')
+def resetFacPass(request):
+  template = loader.get_template('resetFacPass.html')
+  return HttpResponse(template.render({}, request))
+def resetFacultyPassword(request):
+  penNumber = request.POST['penNumber']
+  c = Faculty.objects.filter(penNumber=penNumber).count()
+  if c==1:
+    user = Faculty.objects.get(penNumber=penNumber)
+    user.password=penNumber
+    user.save()
+    return HttpResponse("<script>alert('Password reset Successfully!, Current Password is same as your Pen Number');window.location.href='../FacultySignIn';</script>")
+  else:
+      return HttpResponse("<script>alert('No account related to the entered Pen Number!');window.history.back();</script>")
+def updateFacDetails(request,email):
+  fname = request.POST['fname']
+  lname = request.POST['lname']
+  mobile = request.POST['mobile']
+  email = request.POST['email']
+  al = Faculty.objects.get(email=email)
+  al.fname = fname
+  al.lname = lname
+  al.mobile = mobile
+  al.lname = lname
+  al.email = email 
+  al.save()
+  return HttpResponseRedirect(reverse('FacultyProfile'))
+def resetAlumniPass(request):
+  template = loader.get_template('resetAlumniPass.html')
+  return HttpResponse(template.render({}, request))
+def resetAlumniPassword(request):
+  email = request.POST['email']
+  c = Alumnis.objects.filter(email=email).count()
+  if c==1:
+    user = Alumnis.objects.get(email=email)
+    user.otp= random.randint(100000,999999)
+    user.save()
+    subject="Password Reset Verification!"
+    message = f'Hi '+ user.fname +' '+ user.lname +', '+str(user.otp)+f' is Your OTP for password reset verification.'
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [email, ]
+    send_mail( subject, message, email_from, recipient_list )
+    return HttpResponseRedirect('../verifyOTP')
+  else:
+      return HttpResponse("<script>alert('No account related to the entered Email Id!');window.history.back();</script>")
+def verifyOTP(request):
+  template = loader.get_template('setNewPassword.html')
+  return HttpResponse(template.render({}, request))
+
+def verifyAlumni2(request):
+  o = request.POST['otp']
+  p = request.POST['psw']
+  cp = request.POST['cpsw']
+  a = Alumnis.objects.filter(otp=int(o)).count()
+  if a:
+    al = Alumnis.objects.get(otp=int(o))
+    if str(al.otp)==o:
+      if p==cp:
+        al.password=p
+        al.save()
+        return HttpResponse("<script>alert('Password reset Successfully!');window.location.href='../alumniSignIn';</script>")
+      else:
+        return HttpResponse("<script>alert('New password and Confirm password does not match!');window.history.back();</script>")
+    else:
+      return HttpResponse("<script>alert('Enter Valid OTP');window.history.back();</script>")
+  else:
+    return HttpResponse("<script>alert('Enter Valid OTP');window.history.back();</script>")

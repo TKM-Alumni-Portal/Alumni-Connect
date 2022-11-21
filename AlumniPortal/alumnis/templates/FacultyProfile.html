@@ -79,7 +79,11 @@
               {% endif %}
               <!--<img src="{% static 'assets2/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">-->
               <h2>{{ myFaculty.0.fname }} {{ myFaculty.0.lname }}</h2>
-              <h3>Faculty</h3>
+              {% if myFaculty.0.access %}
+                <h3>ADMIN</h3>
+              {% else %}
+                <h3>Faculty</h3>
+              {% endif %}
             </div>
           </div>
 
@@ -198,7 +202,7 @@
                         </div>
                       </div>
                     </div>
-                  <form method="POST" action="updateDetails/{{ myalumnis.0.email }}">
+                  <form method="POST" action="updateFacDetails/{{ myFaculty.0.email }}">
                     {% csrf_token %}
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
@@ -219,12 +223,6 @@
                       </div>
                     </div>
 
-                    <div class="row mb-3">
-                      <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job title</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="position" type="text" class="form-control" id="Job" value="Faculty">
-                      </div>
-                    </div>
 
                     <div class="row mb-3">
                       <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Mobile</label>

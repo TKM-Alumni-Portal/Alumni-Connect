@@ -44,6 +44,7 @@ urlpatterns = [
     path('completeProfile/', views.completeProfile, name='completeProfile'),
     path('completeProfile/addDetails/<str:email>', views.addDetails, name='addDetails'),
     path('alumniProfile/updateDetails/<str:email>', views.updateDetails, name='updateDetails'),
+    path('FacultyProfile/updateFacDetails/<str:email>', views.updateFacDetails, name='updateFacDetails'),
     path('alumniProfile/updatePreference/<str:email>', views.updatePreference, name='updatePreference'),
     path('alumniProfile/deleteProPic/<str:email>', views.deleteProPic, name='deleteProPic'),
     path('alumniList/', views.alumniList, name='alumniList'),
@@ -72,5 +73,11 @@ urlpatterns = [
     path('viewCategoryAlumni/<str:date>', views.viewCategoryAlumni, name="viewCategoryAlumni"),
     path('addImageAlumniPage/<str:date>', views.addImageAlumniPage, name="addImageAlumniPage"),
     path('addEventImageAlumni/', views.addEventImageAlumni, name="addEventImageAlumni"),  # type: ignore
+    path('resetFacultyPassword/', views.resetFacultyPassword, name="resetFacultyPassword"),
+    path('resetFacPass/', views.resetFacPass, name="resetFacPass"),
+    path('resetAlumniPassword/', views.resetAlumniPassword, name="resetAlumniPassword"),
+    path('resetAlumniPass/', views.resetAlumniPass, name="resetAlumniPass"),
+    path('verifyOTP/', views.verifyOTP, name="verifyOTP"),
+    path('verifyAlumni2/', views.verifyAlumni2, name="verifyAlumni2"),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
