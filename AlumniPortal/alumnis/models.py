@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date,datetime
 from os import access
 from django.db import models
 from traitlets import default
@@ -77,3 +77,10 @@ class Gallery(models.Model):
   pic = models.ImageField(upload_to='gallery/')
   email = models.CharField(max_length=300)
   status = models.IntegerField(default=0)
+
+class Post(models.Model):
+  pid = models.AutoField(auto_created = True,primary_key = True)
+  email = models.CharField(max_length=255)
+  pname = models.CharField(max_length=300)
+  description = models.CharField(max_length=1000, default="")
+  timestamp = models.DateTimeField(default=datetime.now())

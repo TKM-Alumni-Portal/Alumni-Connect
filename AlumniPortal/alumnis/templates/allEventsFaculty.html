@@ -43,14 +43,13 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Alumni List</h1>
+      <h1>Event List</h1>
       
     </div><!-- End Page Title -->
     <section class="">
       <div class="row">
         <div class="col-12">
           <div class="card-body">
-            <h5 class="card-title">Permissions</h5>
 
             <table class="table table-borderless datatable">
               <thead>
@@ -69,7 +68,7 @@
                     <td>{{ i.name }}</td>
                     <td>{{ i.date }}</td>
                     <td>{{ i.time }}</td>
-                    <td><span class="badge bg-success"><a style="color:white;" href="../viewEvent/{{ i.date|upper }}">View</a> </span></td>
+                    <td><span class="badge bg-success"><a href="../viewCategoryAdmin/{{ i.date|upper }}" style="color:white;"">View</a> </span></td>
                     {% if i.status %}
                     <td><span class="badge bg-info">Approved</span></td>
                     {% else %}

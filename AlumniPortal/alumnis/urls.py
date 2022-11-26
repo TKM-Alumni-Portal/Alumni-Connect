@@ -79,5 +79,8 @@ urlpatterns = [
     path('resetAlumniPass/', views.resetAlumniPass, name="resetAlumniPass"),
     path('verifyOTP/', views.verifyOTP, name="verifyOTP"),
     path('verifyAlumni2/', views.verifyAlumni2, name="verifyAlumni2"),
+    path('post/', views.post, name="post"),
+    path('addPostDetails/', views.addPostDetails, name='addPostDetails'),
+    path('postView/', views.postView, name='postView'),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

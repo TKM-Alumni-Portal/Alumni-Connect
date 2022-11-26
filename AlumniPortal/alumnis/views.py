@@ -1,6 +1,6 @@
 import hashlib
 import random
-from datetime import date
+from datetime import date,datetime
 from django.conf import settings
 from django.core.mail import send_mail
 from django.db.models import Q
@@ -856,6 +856,7 @@ def approveEvent(request,date):
   event.save()
   return HttpResponseRedirect('../allEventsFaculty')
 
+
 def deleteEvent(request, date):
   event = Events.objects.get(date=date)
   event.delete()
@@ -898,9 +899,10 @@ def viewCategoryAdmin(request,date):
     event = Events.objects.filter(date=date).values()
     ev = Events.objects.get(date=date)
     gallery = Gallery.objects.filter(eventName=ev.name,status=1).values()
+    gc = Gallery.objects.filter(eventName=ev.name,status=1).count()
     template = loader.get_template('viewCategoryAdmin.html')
     context = {
-    'myFaculty': user,'event':event,'g':gallery
+    'myFaculty': user,'event':event,'g':gallery, 'gc':gc
   }
     return HttpResponse(template.render(context, request))
   else:
@@ -1042,3 +1044,40 @@ def verifyAlumni2(request):
       return HttpResponse("<script>alert('Enter Valid OTP');window.history.back();</script>")
   else:
     return HttpResponse("<script>alert('Enter Valid OTP');window.history.back();</script>")
+
+def post(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    pic = AlumniProPic.objects.filter(email=a).values()
+    user = Alumnis.objects.filter(email=a).values()
+    alumniDetails = AlumniProfile.objects.filter(email=a).values()
+    p = Post.objects.filter(email=a).order_by('-timestamp').values()
+    template = loader.get_template('addPost.html')
+    context = {
+    'myalumnis': user,'details':alumniDetails,'pic' : pic,'p':p
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
+
+def addPostDetails(request):
+  a=request.session.get('email')
+  pname = request.POST['pname']
+  timestamp =  datetime.now()
+  description = request.POST['description']
+  p=Post(email=a,pname=pname,timestamp=timestamp,description=description)
+  p.save()
+  return HttpResponseRedirect(reverse('post'))
+
+def postView(request):
+  if 'email' in request.session:
+    a=request.session.get('email')
+    user = Faculty.objects.filter(email=a).values()
+    p = Post.objects.all().order_by('-timestamp').values()
+    template = loader.get_template('viewAlumniPost.html')
+    context = {
+    'myFaculty': user,'p': p,
+  }
+    return HttpResponse(template.render(context, request))
+  else:
+    return redirect('index')
